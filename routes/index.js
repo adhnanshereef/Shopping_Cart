@@ -33,7 +33,7 @@ router.get("/", function (req, res, next) {
         "https://assets.swappie.com/cdn-cgi/image/width=600,height=600,fit=contain,format=auto/iPhone-11-Pro-midnight-green-back.png",
     }
   ];
-  res.render("index", { products });
+  res.render("index", { products ,admin:true });
 });
 
 module.exports = router;
