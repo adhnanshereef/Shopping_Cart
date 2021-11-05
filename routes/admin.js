@@ -1,8 +1,8 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get("/", function (req, res, next) {
   let products = [
     {
       name: "Iphone 12",
@@ -15,8 +15,7 @@ router.get('/', function(req, res, next) {
       name: "Iphone 12 pro max",
       category: "Mobile",
       description: "This is Phone from app founded by steave jobs",
-      image:
-        "https://m.media-amazon.com/images/I/71MHTD3uL4L.jpg",
+      image: "https://m.media-amazon.com/images/I/71MHTD3uL4L.jpg",
     },
     {
       name: "Iphone 12 pro",
@@ -31,15 +30,19 @@ router.get('/', function(req, res, next) {
       description: "This is Phone from app founded by steave jobs",
       image:
         "https://assets.swappie.com/cdn-cgi/image/width=600,height=600,fit=contain,format=auto/iPhone-11-Pro-midnight-green-back.png",
-    }
+    },
   ];
-  res.render('admin/view-products' ,{admin:true,products,title:"Admin Panel"});
+  res.render("admin/view-products", {
+    admin: true,
+    products,
+    title: "Admin Panel",
+  });
 });
-router.get('/add-products',function(req,res){
-  res.render('admin/add-products')
-})
-router.post('/add-products',(req,res)=>{
+router.get("/add-products", function (req, res) {
+  res.render("admin/add-products");
+});
+router.post("/add-products", (req, res) => {
   console.log(req.body);
   console.log(req.files.image);
-})
+});
 module.exports = router;
