@@ -1,8 +1,8 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
+/* GET users listing. */
+router.get('/', function(req, res, next) {
   let products = [
     {
       name: "Iphone 12",
@@ -33,7 +33,13 @@ router.get("/", function (req, res, next) {
         "https://assets.swappie.com/cdn-cgi/image/width=600,height=600,fit=contain,format=auto/iPhone-11-Pro-midnight-green-back.png",
     }
   ];
-  res.render("index", { products ,admin:true });
+  res.render('admin/view-products' ,{admin:true,products,title:"Admin Panel"});
 });
-
+router.get('/add-products',function(req,res){
+  res.render('admin/add-products')
+})
+router.post('/add-products',(req,res)=>{
+  console.log(req.body);
+  console.log(req.files.image);
+})
 module.exports = router;

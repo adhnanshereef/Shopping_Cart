@@ -1,9 +1,39 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+/* GET home page. */
+router.get("/", function (req, res, next) {
+  let products = [
+    {
+      name: "Iphone 12",
+      category: "Mobile",
+      description: "This is Phone from app founded by steave jobs",
+      image:
+        "data:image/jpeg;base64,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",
+    },
+    {
+      name: "Iphone 12 pro max",
+      category: "Mobile",
+      description: "This is Phone from app founded by steave jobs",
+      image:
+        "https://m.media-amazon.com/images/I/71MHTD3uL4L.jpg",
+    },
+    {
+      name: "Iphone 12 pro",
+      category: "Mobile",
+      description: "This is Phone from app founded by steave jobs",
+      image:
+        "https://media.router-switch.com/media/catalog/product/cache/b90fceee6a5fa7acd36a04c7b968181c/i/p/iphone-12-pro.jpg",
+    },
+    {
+      name: "Iphone 11",
+      category: "Mobile",
+      description: "This is Phone from app founded by steave jobs",
+      image:
+        "https://assets.swappie.com/cdn-cgi/image/width=600,height=600,fit=contain,format=auto/iPhone-11-Pro-midnight-green-back.png",
+    }
+  ];
+  res.render("index", { products ,admin:false ,title:"Shopping Cart" });
 });
 
 module.exports = router;
