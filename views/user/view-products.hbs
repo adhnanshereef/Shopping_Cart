@@ -6,12 +6,10 @@
       {{#each products}}
         <div class="col-md-3 p-5" >
           <div class="card" style="width: 15rem;height: 26rem;overflow-y hidden;" >
-            {{!-- <img style="height: 15rem;" src={require('../../public/images/61854a6c38d602759ccb1039.jpg')} class="card-img-top" alt="" />
-             --}}
-             <img style="height: 15rem;" src="/public/images/{{this._id}}.jpg" alt="Login({{this._id}})">
+             <img style="height: 15rem;" src="{{this._id}}.jpg" alt="">
             <div class="card-body">
               <h5 class="card-title">{{this.name}}</h5>
-              <p class="card-text" style="height: 3rem;overflow-y: scroll;">{{this.description}}</p>
+              <p class="card-text" style="height: 3rem;overflow-y: auto;">{{this.description}}</p>
               <a href="#" class="btn btn-primary">Add to cart</a>
             </div>
           </div>
