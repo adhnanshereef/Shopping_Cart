@@ -8,6 +8,7 @@ var adminRouter = require('./routes/admin');
 var hbs=require('express-handlebars')
 var fileUpload=require('express-fileupload'); 
 var db=require('./config/connection')
+var session=require('express-session')
 var app = express();
 
 // view engine setup
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret:"Key",cookie:{maxAge:600000}}))
 db.connect((err)=>{
   if(err)
     console.log("Connection err "+err);
