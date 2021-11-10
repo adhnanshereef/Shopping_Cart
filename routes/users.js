@@ -12,16 +12,24 @@ router.get("/", function (req, res, next) {
   })
 });
 
-// Signup
-router.get('/signup',(req,res)=>{
-  res.render('user/signup',{title:"Signup"})
-})
-router.post('/signup',(req,res)=>{
-  userHelpers.doSignup(req.body)
-})
+// Login Verification
+const varifyLogin=(req,res,next)=>{
+  if(req.session.loggedIn){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+}
+
+
 // Login
 router.get('/login',(req,res)=>{
-  res.render('user/login',{title:"Login"})
+  if(req.session.loggedIn){
+    res.redirect('/')
+  }else{
+    res.render('user/login',{title:"Login",loginErr:req.session.loginErr})
+    req.session.loginErr=false
+  }
 })
 router.post('/login',(req,res)=>{
   userHelpers.doLogin(req.body).then((response)=>{
@@ -30,6 +38,7 @@ router.post('/login',(req,res)=>{
       req.session.user=response.user
       res.redirect('/')
     }else{
+      req.session.loginErr="Invalid Username or Password"
       res.redirect('/login')
     }
   })
@@ -38,5 +47,24 @@ router.get('/logout',(req,res)=>{
   req.session.destroy()
   res.redirect('login')
 })
+// Signup
+router.get('/signup',(req,res)=>{
+  if(req.session.loggedIn){
+    req.session.destroy()
+  }else{
+
+    res.render('user/signup',{title:"Signup"})
+  }
+  res.render('user/signup',{title:"Signup"})
+})
+router.post('/signup',(req,res)=>{
+  userHelpers.doSignup(req.body)
+})
+//Cart
+router.get('/cart',varifyLogin,(req,res)=>{
+  res.render('user/cart',{title:"Cart"})
+})
+
+
 
 module.exports = router;
