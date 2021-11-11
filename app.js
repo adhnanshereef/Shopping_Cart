@@ -6,9 +6,9 @@ var logger = require('morgan');
 var userRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var hbs=require('express-handlebars')
-var fileUpload=require('express-fileupload'); 
+var fileUpload=require('express-fileupload');
 var db=require('./config/connection')
-var session=require('express-session')
+var session=require('express-session');
 var app = express();
 
 // view engine setup
