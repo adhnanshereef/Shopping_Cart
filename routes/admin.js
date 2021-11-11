@@ -18,7 +18,7 @@ router.get("/", function (req, res, next) {
   })
 });
 router.get("/add-products", function (req, res) {
-  res.render("admin/add-products",{title:"Add Products"});
+  res.render("admin/add-products",{admin: true,title:"Add Products"});
 });
 router.post("/add-products", (req, res) => {
   console.log(req.body);
@@ -34,10 +34,25 @@ router.post("/add-products", (req, res) => {
     })
   })
 });
+
+// Delete Products
 router.get('/delete-product/:id',(req,res)=>{
   let proId=req.params.id
   productHelpers.deleteProduct(proId).then((response)=>{
     res.redirect('/admin')
   })
+})
+// Edit Products
+router.get('/edit-products/:id',async (req,res)=>{
+  let product=await productHelpers.getProductsDetails(req.params.id)
+  res.render('admin/edit-products',{admin: true,title:"Edit Products",product})
+})
+router.post('/edit-product/:id',(req,res)=>{
+  productHelpers.updateProduct(req.params.id,req.body).then(()=>{
+    res.redirect('/admin')
+  })
+})
+router.post('/edit-product/:id',(req,res)=>{
+  productHelpers.updateProduct(req.body)
 })
 module.exports = router;
