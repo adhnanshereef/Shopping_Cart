@@ -21,12 +21,9 @@ router.get("/add-products", function (req, res) {
   res.render("admin/add-products",{admin: true,title:"Add Products"});
 });
 router.post("/add-products", (req, res) => {
-  console.log(req.body);
-  console.log(req.files.image);
   productHelpers.addProduct(req.body,(id)=>{
-    console.log(id);
     let image=req.files.image
-    image.mv('./public/images/'+id+'.jpg',(err,done)=>{
+    image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
       if(!err){
         res.render('./admin/add-products', {title:"Add Product"})
       }else{
@@ -50,9 +47,13 @@ router.get('/edit-products/:id',async (req,res)=>{
 router.post('/edit-product/:id',(req,res)=>{
   productHelpers.updateProduct(req.params.id,req.body).then(()=>{
     res.redirect('/admin')
+    if(req.files.image){
+      let image=req.files.image
+      image.mv('./public/product-images/'+req.params.id+'.jpg')
+    }
   })
 })
-router.post('/edit-product/:id',(req,res)=>{
-  productHelpers.updateProduct(req.body)
-})
+// router.post('/edit-product/:id',(req,res)=>{
+//   productHelpers.updateProduct(req.body)
+// })
 module.exports = router;

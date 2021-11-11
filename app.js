@@ -28,7 +28,7 @@ db.connect((err)=>{
     else
     console.log('Connected');
 })
-app.use(express.static('public/images'));
+app.use(express.static('public/product-images'));
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
 
