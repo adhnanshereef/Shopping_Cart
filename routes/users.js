@@ -49,16 +49,14 @@ router.get('/logout',(req,res)=>{
 })
 // Signup
 router.get('/signup',(req,res)=>{
-  if(req.session.loggedIn){
-    req.session.destroy()
-  }else{
-
-    res.render('user/signup',{title:"Signup"})
-  }
   res.render('user/signup',{title:"Signup"})
 })
 router.post('/signup',(req,res)=>{
-  userHelpers.doSignup(req.body)
+  userHelpers.doSignup(req.body).then((response)=>{
+    req.session.loggedIn=true
+    req.session.user=response.user
+    res.redirect('/')
+  })
 })
 //Cart
 router.get('/cart',varifyLogin,(req,res)=>{
