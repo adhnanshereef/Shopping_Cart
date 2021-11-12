@@ -60,7 +60,8 @@ router.post('/signup',(req,res)=>{
 })
 //Cart
 router.get('/cart',varifyLogin,(req,res)=>{
-  res.render('user/cart',{title:"Cart"})
+  let user=req.session.user
+  res.render('user/cart',{title:"Cart",user})
 })
 
 

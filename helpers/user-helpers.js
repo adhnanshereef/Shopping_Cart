@@ -13,13 +13,10 @@ module.exports = {
   doLogin: (userData) => {
     return new Promise(async (resolve, reject) => {
       let response={}
-      let user;
-      if (
-        (user = await db
+      let user = await db
           .get()
           .collection(collections.USER_COLLECTION)
-          .findOne({ username: userData.username }))
-      ) {
+          .findOne({ username: userData.username })
         if (user) {
           bcrypt.compare(userData.password, user.password).then((status) => {
             if (status) {
@@ -36,29 +33,6 @@ module.exports = {
           console.log("Login failed");
           resolve({status:false});
         }
-      } else if (
-        (user = await db
-          .get()
-          .collection(collections.USER_COLLECTION)
-          .findOne({ email: userData.email }))
-      ) {
-        if (user) {
-          bcrypt.compare(userData.password, user.password).then((status) => {
-            if (status) {
-              console.log("Login Success");
-              response.user=user;
-              response.status=true;
-              resolve(response);
-            } else {
-              console.log("Login Failed");
-              resolve({status:false});
-            }
-          });
-        } else {
-          console.log("Login failed");
-          resolve({status:false});
-        }
-      }
     });
   },
 };

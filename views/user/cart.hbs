@@ -1,1 +1,18 @@
-<h1 class="text-center" >Cart is empty</h1>
+<div class="container">
+
+    {{#if carts}}
+    {{#each carts}}
+    <div class="col-md-3 p-5" >
+        <div class="card" style="width: 15rem;height: 20rem;overflow-y: hidden;" >
+            <img style="height: 15rem;" src="{{this._id}}.jpg" alt="">
+            <div class="card-body">
+                <h5 class="card-title">{{this.name}}</h5>
+                <p class="card-text" style="height: 3rem;overflow-y: auto;">{{this.description}}</p>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    {{else}}
+    <h1 class="text-center" >Cart is empty</h1>
+    {{/if}}
+</div>
