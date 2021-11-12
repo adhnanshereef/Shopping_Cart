@@ -13,7 +13,7 @@ router.get("/", function (req, res, next) {
 });
 
 // Login Verification
-const varifyLogin=(req,res,next)=>{
+const verifyLogin=(req,res,next)=>{
   if(req.session.loggedIn){
     next()
   }else{
@@ -59,11 +59,17 @@ router.post('/signup',(req,res)=>{
   })
 })
 //Cart
-router.get('/cart',varifyLogin,(req,res)=>{
+router.get('/cart',verifyLogin,async(req,res)=>{
   let user=req.session.user
-  res.render('user/cart',{title:"Cart",user})
+  let carts=await userHelpers.getCartProducts(req.session.user._id)
+  res.render('user/cart',{title:"Cart",user,carts})
 })
 
+router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
+  userHelpers.addToCart(req.params.id,req.session.user._id).then(()=>{
+    res.redirect('/')
+  })
+})
 
 
 module.exports = router;

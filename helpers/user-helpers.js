@@ -1,6 +1,7 @@
 var db = require("../config/connection");
 var collections = require("../config/collections");
 const bcrypt = require("bcrypt");
+var objId=require('mongodb').ObjectId
 module.exports = {
   doSignup: (userData) => {
     return new Promise(async(resolve, reject) => {
@@ -35,4 +36,51 @@ module.exports = {
         }
     });
   },
+  addToCart:(proId,userId)=>{
+    return new Promise(async(resolve,reject)=>{
+      let userCart=await db.get().collection(collections.CART_COLLECTION).findOne({user:objId(userId)})
+      if(userCart){
+        db.get().collection(collections.CART_COLLECTION).updateOne({user:objId(userId)},
+        {
+          $push:{products:objId(proId)}
+        }).then((response)=>{
+          resolve()
+        })
+      }else{
+        let cartObj={
+          user:objId(userId),
+          products:[objectId(proId)]
+        }
+        db.get().collection(collections.CART_COLLECTION).insertOne(cartObj).then((response)=>{
+          resolve()
+        })
+      }
+    })
+  },
+  getCartProducts:(userId)=>{
+    return new Promise(async(resolve,reject)=>{
+      let cartItems=await db.get().collection(collections.CART_COLLECTION).aggregate([
+        {
+          $match:{user:objId(userId)}
+        },
+        {
+          $lookup:{
+            from:collections.PRODUCT_COLLECTION,
+            let:{prodList:'$products'},
+            pipeline:[
+              {
+                $match:{
+                  $expr:{
+                    $in:['$_id','$$prodList']
+                  }
+                }
+              }
+            ],
+            as:'cartItems'
+          }
+        }
+      ]).toArray()
+      resolve(cartItems[0].cartItems)
+    })
+  }
 };
