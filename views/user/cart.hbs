@@ -1,18 +1,39 @@
-<div class="container">
-
-    {{#if carts}}
-    {{#each carts}}
-    <div class="col-md-3 p-5" >
-        <div class="card" style="width: 15rem;height: 20rem;overflow-y: hidden;" >
-            <img style="height: 15rem;" src="{{this._id}}.jpg" alt="">
-            <div class="card-body">
-                <h5 class="card-title">{{this.name}}</h5>
-                <p class="card-text" style="height: 3rem;overflow-y: auto;">{{this.description}}</p>
-            </div>
+<section>
+    <div class="container">
+        
+        {{#if carts}}
+        <table class="table mt-5" >
+            <thead>
+                <tr>
+                    <th scope="col">Items</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            {{#each carts}}
+            <tbody>
+                <tr>
+                    <td><img src="{{this._id}}.jpg" style="width: 50px;height: auto;" alt=""></td>
+                    <td>{{this.name}}</td>
+                    <td><button class="cart-item-count btn btn-primary mr-3" style="width: 40px;margin-right: 10px;">+</button>1<button class="cart-item-count btn btn-primary" style="width: 40px;margin-left: 10px;">-</button></td>
+                    <td>{{this.price}}</td>
+                    <td><a href="" class="btn btn-danger">Remove</a></td>
+                </tr>
+            </tbody>
+            {{/each}}
+        </table>
+        {{else}}
+        <h1 class="text-center" >Cart is empty</h1>
+        {{/if}}
+    </div>
+</section>
+<!-- <div class="col-md-3 p-5" >
+    <div class="card" style="width: 15rem;height: 20rem;overflow-y: hidden;" >
+        <img style="height: 15rem;" src="{{this._id}}.jpg" alt="">
+        <div class="card-body">
+            <h5 class="card-title">{{this.name}}</h5>
+            <p class="card-text" style="height: 3rem;overflow-y: auto;">{{this.description}}</p>
         </div>
     </div>
-    {{/each}}
-    {{else}}
-    <h1 class="text-center" >Cart is empty</h1>
-    {{/if}}
-</div>
+</div> -->

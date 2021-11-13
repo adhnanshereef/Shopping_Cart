@@ -70,6 +70,4 @@ router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
     res.redirect('/')
   })
 })
-
-
 module.exports = router;

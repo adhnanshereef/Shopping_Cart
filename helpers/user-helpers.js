@@ -49,7 +49,7 @@ module.exports = {
       }else{
         let cartObj={
           user:objId(userId),
-          products:[objectId(proId)]
+          products:[objId(proId)]
         }
         db.get().collection(collections.CART_COLLECTION).insertOne(cartObj).then((response)=>{
           resolve()
