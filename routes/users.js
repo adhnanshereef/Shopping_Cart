@@ -5,10 +5,15 @@ const userHelpers=require('../helpers/user-helpers')
 
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
+router.get("/",async function (req, res, next) {
   let user=req.session.user
+  let cartCount=null
+  if(req.session.user){
+
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
   productHelpers.getAllProducts().then((products)=>{
-    res.render("user/view-products", { products ,user,title:"Shopping Cart" }); 
+    res.render("user/view-products", { products ,user,title:"Shopping Cart",cartCount }); 
   })
 });
 
@@ -61,8 +66,12 @@ router.post('/signup',(req,res)=>{
 //Cart
 router.get('/cart',verifyLogin,async(req,res)=>{
   let user=req.session.user
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
   let carts=await userHelpers.getCartProducts(req.session.user._id)
-  res.render('user/cart',{title:"Cart",user,carts})
+  res.render('user/cart',{title:"Cart",user,carts,cartCount})
 })
 
 router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
@@ -70,4 +79,5 @@ router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
     res.redirect('/')
   })
 })
+
 module.exports = router;
