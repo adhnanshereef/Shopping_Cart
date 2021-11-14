@@ -14,10 +14,14 @@
             {{#each carts}}
             <tbody>
                 <tr>
+                    {{#each this.product}}
                     <td><img src="{{this._id}}.jpg" style="width: 50px;height: auto;" alt=""></td>
                     <td>{{this.name}}</td>
-                    <td><button class="cart-item-count btn btn-primary mr-3" style="width: 40px;margin-right: 10px;">+</button>1<button class="cart-item-count btn btn-primary" style="width: 40px;margin-left: 10px;">-</button></td>
+                    {{/each}}
+                    <td><button class="cart-item-count btn btn-primary mr-3" style="width: 40px;margin-right: 10px;">+</button>{{this.quantity}}<button class="cart-item-count btn btn-primary" style="width: 40px;margin-left: 10px;">-</button></td>
+                    {{#each this.product}}
                     <td>{{this.price}}</td>
+                    {{/each}}
                     <td><a href="" class="btn btn-danger">Remove</a></td>
                 </tr>
             </tbody>
