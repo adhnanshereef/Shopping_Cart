@@ -26,7 +26,8 @@
           </div>
           <div class="mb-3">
             <label for="" class="form-control">Image</label>
-            <input type="file" name="image" class="form-control" required />
+            <img src="https://static.thenounproject.com/png/2972511-200.png" class="rounded m-3" style="width: 100px;height: auto;" alt="" id="viewImg">
+            <input type="file" name="image" class="form-control" onchange={imageView()} required />
           </div>
           <button type="submit" class="btn btn-primary mt-5">add</button>
         </form>
@@ -34,3 +35,8 @@
     </div>
   </div>
 </section>
+<script>
+  function imageView(){
+    document.getElementById('viewImg').src=URL.createObjectURL(event.target.files[0])
+  }
+</script>
