@@ -79,5 +79,12 @@ router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
     res.json({status:true})
   })
 })
+router.post('/change-product-quantity',(req,res,next)=>{
+  console.log(req.body);
+  userHelpers.changeProductQuantity(req.body).then(()=>{
+    res.redirect('/cart')
+    // res.json({status:true})
+  })
+})
 
 module.exports = router;

@@ -54,11 +54,13 @@ module.exports = {
         if(proExist!=-1){
           db.get()
             .collection(collections.CART_COLLECTION)
-            .updateOne({'products.item':objId(proId)},
+            .updateOne({user:objId(userId),'products.item':objId(proId)},
               {
                 $inc:{'products.$.quantity':1}
               }
-            );
+            ).then(()=>{
+              resolve()
+            })
         }else{
 
           db.get().collection(collections.CART_COLLECTION).updateOne({user:objId(userId)},
@@ -107,6 +109,11 @@ module.exports = {
               foreignField:'_id',
               as:'product'
             }
+          },
+          {
+            $project:{
+              item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
+            }
           }
         ])
         .toArray();
@@ -127,4 +134,19 @@ module.exports = {
       resolve(count);
     });
   },
+  changeProductQuantity:(details)=>{
+    details.count=parseInt(details.count)
+    return new Promise((resolve,reject)=>{
+      db.get()
+            .collection(collections.CART_COLLECTION)
+            .updateOne({_id:objId(details.cart),'products.item':objId(details.product)},
+              {
+                $inc:{'products.$.quantity':details.count}
+              }
+            ).then((response)=>{
+              console.log(response);
+              resolve()
+            })
+    })
+  }
 };
