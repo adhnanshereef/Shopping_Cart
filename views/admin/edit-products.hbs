@@ -27,7 +27,7 @@
           <div class="mb-3">
             <label for="" class="form-control">Image</label>
             <img src="/{{product._id}}.jpg" style="width: 200px;height: auto;" alt="" id="imgView" class="p-3">
-            <input type="file" name="image" class="form-control" onchange={viewImage(event)} required  />
+            <input type="file" name="image" class="form-control" onchange={viewImage(event)} />
           </div>
           <button type="submit" class="btn btn-primary mt-1">Edit</button>
         </form>
