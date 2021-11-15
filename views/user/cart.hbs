@@ -16,9 +16,9 @@
                 <tr>
                     <td><img src="{{this.product._id}}.jpg" style="width: 50px;height: auto;" alt=""></td>
                     <td>{{this.product.name}}</td>
-                    <td><button class="cart-item-count btn btn-primary mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)" style="width: 40px;margin-right: 10px;">+</button><span id="item-quantity" >{{this.quantity}}</span><button class="cart-item-count btn btn-primary" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)" style="width: 40px;margin-left: 10px;">-</button></td>
+                    <td><button class="cart-item-count btn btn-primary mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1,'{{this.quantity}}')" style="width: 40px;margin-right: 10px;">+</button><span id="item-quantity" >{{this.quantity}}</span><button class="cart-item-count btn btn-primary" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1,'{{this.quantity}}')"  style="width: 40px;margin-left: 10px;">-</button></td>
                     <td>{{this.product.price}}</td>
-                    <td><a href="" class="btn btn-danger">Remove</a></td>
+                    <td><a href="/remove-cart-product/{{this.product._id}}" class="btn btn-danger">Remove</a></td>
                 </tr>
             </tbody>
             {{/each}}

@@ -148,5 +148,14 @@ module.exports = {
               resolve()
             })
     })
+  },
+  removeCartProduct:(cartId,userId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collections.CART_COLLECTION).update({user:objId(userId)},{$pull:{products:{item:objId(cartId)}}}).then((response)=>{
+       console.log('cart removed');
+        resolve(response)
+    })
+    })
   }
+  
 };

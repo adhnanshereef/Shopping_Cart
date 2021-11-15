@@ -86,5 +86,10 @@ router.post('/change-product-quantity',(req,res,next)=>{
     // res.json({status:true})
   })
 })
+router.get('/remove-cart-product/:id',verifyLogin,(req,res)=>{
+  userHelpers.removeCartProduct(req.params.id,req.session.user._id).then((response)=>{
+    res.redirect('/cart')
+  })
+})
 
 module.exports = router;

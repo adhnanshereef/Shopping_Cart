@@ -20,11 +20,19 @@ function addToCart(proId){
             count:count
         },
         method:'post',
+        
         success:(response)=>{
             // if(response.status){
             //   let itemQuantity=$('#item-quantity').html()
             //   itemQuantity=parseInt(itemQuantity)+count
             //   $('#item-quantity').html(itemQuantity)
+            // }
+            // if(quantity==1){
+            //     $('#item-qauntity').style.opacity=0
+            // }
+            // else{
+            //     $('#item-qauntity').style.opacity=1
+
             // }
         }
     })
