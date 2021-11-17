@@ -90,4 +90,9 @@ router.get('/remove-cart-product/:id',verifyLogin,(req,res)=>{
   })
 })
 
+// Checkout Order
+router.get('/place-order',verifyLogin,(req,res)=>{
+  res.render('user/checkout_order')
+})
+
 module.exports = router;
