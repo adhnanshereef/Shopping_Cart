@@ -11,29 +11,26 @@ function addToCart(proId){
       }
     })
   }
-  function changeQuantity(cartId,proId,count,quantity){
-    $.ajax({
-        url:'/change-product-quantity',
-        data:{
-            cart:cartId,
-            product:proId,
-            count:count
-        },
-        method:'post',
-        
-        success:(response)=>{
-            // if(response.status){
-            //   let itemQuantity=$('#item-quantity').html()
-            //   itemQuantity=parseInt(itemQuantity)+count
-            //   $('#item-quantity').html(itemQuantity)
-            // }
-            // if(quantity==1){
-            //     $('#item-qauntity').style.opacity=0
-            // }
-            // else{
-            //     $('#item-qauntity').style.opacity=1
-
-            // }
-        }
-    })
+  function changeQuantity(cartId,proId,count){
+    let quantity=parseInt(document.getElementById(proId).innerHTML)
+    count=parseInt(count)
+  $.ajax({
+      url:'/change-product-quantity',
+      data:{
+          cart:cartId,
+          product:proId,
+          count:count,
+          quantity:quantity
+      },
+      method:'post',
+      
+      success:(response)=>{
+          if(response.removeProduct){
+              alert("Product Removed from Cart")
+              location.reload()
+          }else{
+              document.getElementById(proId).innerHTML=quantity+count
+          }
+      }
+  })
 }

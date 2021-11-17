@@ -79,11 +79,9 @@ router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
     res.json({status:true})
   })
 })
-router.post('/change-product-quantity',(req,res,next)=>{
-  console.log(req.body);
-  userHelpers.changeProductQuantity(req.body).then(()=>{
-    res.redirect('/cart')
-    // res.json({status:true})
+router.post('/change-product-quantity',verifyLogin,(req,res,next)=>{
+  userHelpers.changeProductQuantity(req.body).then((response)=>{
+    res.json(response)
   })
 })
 router.get('/remove-cart-product/:id',verifyLogin,(req,res)=>{

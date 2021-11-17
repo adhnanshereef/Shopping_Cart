@@ -136,23 +136,32 @@ module.exports = {
   },
   changeProductQuantity:(details)=>{
     details.count=parseInt(details.count)
+    details.quantity=parseInt(details.quantity)
     return new Promise((resolve,reject)=>{
-      db.get()
+      if(details.count==-1 && details.quantity==1){
+        db.get()
+        .collection(collections.CART_COLLECTION).update({_id:objId(details.cart)},
+        {
+          $pull:{products:{item:objId(details.product)}}
+        }).then((response)=>{
+          resolve({removeProduct:true})
+        })
+          }else{
+            db.get()
             .collection(collections.CART_COLLECTION)
-            .updateOne({_id:objId(details.cart),'products.item':objId(details.product)},
-              {
-                $inc:{'products.$.quantity':details.count}
-              }
+            .update({_id:objId(details.cart),'products.item':objId(details.product)},
+            {
+              $inc:{'products.$.quantity':details.count}
+            }
             ).then((response)=>{
-              console.log(response);
-              resolve()
+              resolve(true)
             })
+          }
     })
   },
   removeCartProduct:(cartId,userId)=>{
     return new Promise((resolve,reject)=>{
       db.get().collection(collections.CART_COLLECTION).update({user:objId(userId)},{$pull:{products:{item:objId(cartId)}}}).then((response)=>{
-       console.log('cart removed');
         resolve(response)
     })
     })
