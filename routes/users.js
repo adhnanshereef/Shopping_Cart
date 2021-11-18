@@ -81,7 +81,8 @@ router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
   })
 })
 router.post('/change-product-quantity',verifyLogin,(req,res,next)=>{
-  userHelpers.changeProductQuantity(req.body).then((response)=>{
+  userHelpers.changeProductQuantity(req.body).then(async(response)=>{
+    response.total=await userHelpers.getTotalAmount(req.body.user)
     res.json(response)
   })
 })
