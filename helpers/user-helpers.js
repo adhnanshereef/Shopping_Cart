@@ -206,5 +206,8 @@ module.exports = {
         // console.log(total);
       resolve(total[0].total);
     });
+  },
+  placeOrder:(order)=>{
+
   }
 };

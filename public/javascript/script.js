@@ -1,3 +1,4 @@
+// Add to Cart
 function addToCart(proId){
     $.ajax({
       url:'/add-to-cart/'+proId,
@@ -11,6 +12,7 @@ function addToCart(proId){
       }
     })
   }
+  // Change Quantity and Total Amount
   function changeQuantity(cartId,proId,count,userId){
     let quantity=parseInt(document.getElementById(proId).innerHTML)
     count=parseInt(count)
@@ -36,3 +38,15 @@ function addToCart(proId){
       }
   })
 }
+//Checkout product
+$("#checkout").submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+        url:'/place-order',
+        method:'post',
+        data:$('#checkout').serialize(),
+        success:(response)=>{
+
+        }
+    })
+})

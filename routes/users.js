@@ -99,4 +99,10 @@ router.get('/place-order',verifyLogin,async(req,res)=>{
   res.render('user/checkout_order',{title:"Place Order",total,user})
 })
 
+router.post('/place-order',verifyLogin,(req,res)=>{
+  userHelpers.placeOrder(req.body).then((response)=>{
+    
+  })
+})
+
 module.exports = router;
