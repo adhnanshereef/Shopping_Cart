@@ -29,7 +29,7 @@ router.post("/add-products", (req, res) => {
       }else{
       }
     })
-  })
+  },)
 });
 
 // Delete Products
