@@ -27,6 +27,8 @@ const verifyLogin=(req,res,next)=>{
 }
 
 
+
+
 // Login
 router.get('/login',(req,res)=>{
   if(req.session.loggedIn){
@@ -70,9 +72,15 @@ router.get('/cart',verifyLogin,async(req,res)=>{
   if(req.session.user){
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
-  let carts=await userHelpers.getCartProducts(req.session.user._id)
-  let total=await userHelpers.getTotalAmount(req.session.user._id)
-  res.render('user/cart',{title:"Cart",user,carts,cartCount,total})
+  if(cartCount==0){
+    res.send('<head><title>Shopping Cart</title><link rel="icon" href="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31a9302828.jpg" /></head><div style="color:black;width:100%;display:flex;justify-content:center;height:100vh;flex-direction:column;align-items:center;font-family:sans-serif;"><h1>Your Cart is Empty</h1><a href="/" style="text-decoration:none;width:100px;padding:15px;border-radius:15px;background:#0d6efd;color:white;" >Add Products</a></div>');
+    // res.redirect('/')
+    // res.render("user/sampleuse", {user,title:"Shopping Cart",cartCount});
+  }else{
+    let carts=await userHelpers.getCartProducts(req.session.user._id)
+    let total=await userHelpers.getTotalAmount(req.session.user._id)
+    res.render('user/cart',{title:"Cart",user,carts,cartCount,total})
+  }
 })
 
 router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
@@ -91,18 +99,53 @@ router.get('/remove-cart-product/:id',verifyLogin,(req,res)=>{
     res.redirect('/cart')
   })
 })
-
 // Checkout Order
 router.get('/place-order',verifyLogin,async(req,res)=>{
-   let total=await userHelpers.getTotalAmount(req.session.user._id)
-   let user=req.session.user
+  let user=req.session.user
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  if(cartCount==0){
+    res.send('<head><title>Shopping Cart</title><link rel="icon" href="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31a9302828.jpg" /></head><div style="color:black;width:100%;display:flex;justify-content:center;height:100vh;flex-direction:column;align-items:center;font-family:sans-serif;"><h1>Your Cart is Empty</h1><a href="/" style="text-decoration:none;width:100px;padding:15px;border-radius:15px;background:#0d6efd;color:white;" >Add Products</a></div>');
+  }else{
+    let total=await userHelpers.getTotalAmount(req.session.user._id)
   res.render('user/checkout_order',{title:"Place Order",total,user})
+  }
 })
 
-router.post('/place-order',verifyLogin,(req,res)=>{
-  userHelpers.placeOrder(req.body).then((response)=>{
-    
+router.post('/place-order',verifyLogin,async(req,res)=>{
+  let products=await userHelpers.getCartProductList(req.body.userId)
+  let total=await userHelpers.getTotalAmount(req.body.userId)
+  userHelpers.placeOrder(req.body,products,total).then((response)=>{
+    res.json({status:true})
   })
 })
 
+//Orders
+router.get('/order-success',verifyLogin,async(req,res)=>{
+  let cartCount=null
+  if(req.session.user){
+
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  res.render('user/checkout-success',{title:"Shopping Cart",user:req.session.user,cartCount})
+})
+router.get('/order',verifyLogin,async(req,res)=>{
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  let orders=await userHelpers.getAllOrders(req.session.user._id)
+  res.render('user/order',{title:"Orders",user:req.session.user,cartCount,orders})
+})
+router.get('/view-order/:id',verifyLogin,async(req,res)=>{
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  let products=await userHelpers.getOrderProducts(req.params.id)
+  console.log(products);
+  res.render("user/view-order", { products ,user:req.session.user,title:"Ordered Products",cartCount });
+})
 module.exports = router;
