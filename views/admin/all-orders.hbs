@@ -1,0 +1,24 @@
+<section>
+    <div class="container">
+        {{#if orders}}
+        <h3 class="text-center mt-3">All Orders</h3>
+    {{#each orders}}
+    <div class="border border-5 rounded mt-5 mb-5">
+        <div class="container m-3">
+            <h6 class="card-text">Date: {{this.date}}</h6>
+            <h6 class="card-text">Mobile: {{this.deliveryDetails.mobile}}</h6>
+            <h6 class="card-text">Address: {{this.deliveryDetails.address}}</h6>
+            <h6 class="card-text">Pincode: {{this.deliveryDetails.pincode}}</h6>
+            <h6 class="cart-text">Payment: {{this.paymentMethod}}</h6>
+            <h6 class="cart-text">Status: {{this.status}}</h6>
+            <button onclick="shipped('{{this._id}}')" id="{{this._id}}" class="btn btn-success" >Make it Shipped</button>
+            <h3 class="cart-text float-end me-5">Total: {{this.total}}</h6>
+        </div>
+    </div>
+    {{/each}}
+    {{else}}
+<h3 class="text-center mt-3">There is no orders existing</h3>
+{{/if}}
+    </div>
+
+</section>

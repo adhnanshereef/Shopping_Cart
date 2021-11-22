@@ -19,39 +19,37 @@ router.get("/",async function (req, res, next) {
 
 // Login Verification
 const verifyLogin=(req,res,next)=>{
-  if(req.session.loggedIn){
+  if(req.session.userLoggedIn){
     next()
   }else{
     res.redirect('/login')
   }
 }
 
-
-
-
 // Login
 router.get('/login',(req,res)=>{
-  if(req.session.loggedIn){
+  if(req.session.user){
     res.redirect('/')
   }else{
-    res.render('user/login',{title:"Login",loginErr:req.session.loginErr})
-    req.session.loginErr=false
+    res.render('user/login',{title:"Login",loginErr:req.session.userLoginErr})
+    req.session.userLoginErr=false
   }
 })
 router.post('/login',(req,res)=>{
   userHelpers.doLogin(req.body).then((response)=>{
     if(response.status){
-      req.session.loggedIn=true
       req.session.user=response.user
+      req.session.userLoggedIn=true
       res.redirect('/')
     }else{
-      req.session.loginErr="Invalid Username or Password"
+      req.session.userLoginErr="Invalid Username or Password"
       res.redirect('/login')
     }
   })
 })
 router.get('/logout',(req,res)=>{
-  req.session.destroy()
+  req.session.user=null
+  req.session.userLoggedIn=false
   res.redirect('login')
 })
 // Signup
@@ -59,9 +57,10 @@ router.get('/signup',(req,res)=>{
   res.render('user/signup',{title:"Signup"})
 })
 router.post('/signup',(req,res)=>{
-  userHelpers.doSignup(req.body).then((response)=>{
-    req.session.loggedIn=true
-    req.session.user=response.user
+  userHelpers.doSignup(req.body).then(async(response)=>{
+    let userDetails=await userHelpers.getSessionUser(response.insertedId)
+    req.session.user=userDetails
+    req.session.userLoggedIn=true
     res.redirect('/')
   })
 })
@@ -74,8 +73,6 @@ router.get('/cart',verifyLogin,async(req,res)=>{
   }
   if(cartCount==0){
     res.send('<head><title>Shopping Cart</title><link rel="icon" href="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31a9302828.jpg" /></head><div style="color:black;width:100%;display:flex;justify-content:center;height:100vh;flex-direction:column;align-items:center;font-family:sans-serif;"><h1>Your Cart is Empty</h1><a href="/" style="text-decoration:none;width:100px;padding:15px;border-radius:15px;background:#0d6efd;color:white;" >Add Products</a></div>');
-    // res.redirect('/')
-    // res.render("user/sampleuse", {user,title:"Shopping Cart",cartCount});
   }else{
     let carts=await userHelpers.getCartProducts(req.session.user._id)
     let total=await userHelpers.getTotalAmount(req.session.user._id)
@@ -117,8 +114,13 @@ router.get('/place-order',verifyLogin,async(req,res)=>{
 router.post('/place-order',verifyLogin,async(req,res)=>{
   let products=await userHelpers.getCartProductList(req.body.userId)
   let total=await userHelpers.getTotalAmount(req.body.userId)
-  userHelpers.placeOrder(req.body,products,total).then((response)=>{
-    res.json({status:true})
+  userHelpers.placeOrder(req.body,products,total).then((orderId)=>{
+    if(req.body['paymentMethod']=='cod'){
+      res.json({status:true})
+    }else{
+      userHelpers.generateRazorpay(orderId).then((response)=>{
+      })
+    }
   })
 })
 
@@ -145,7 +147,9 @@ router.get('/view-order/:id',verifyLogin,async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   let products=await userHelpers.getOrderProducts(req.params.id)
+  res.render("user/view-order", {user:req.session.user,title:"Ordered Products",cartCount,products});
   console.log(products);
-  res.render("user/view-order", { products ,user:req.session.user,title:"Ordered Products",cartCount });
 })
+
+
 module.exports = router;

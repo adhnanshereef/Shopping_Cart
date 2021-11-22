@@ -1,0 +1,20 @@
+<section>
+    <div class="container mt-3">
+        {{#if users}}
+        <h3 class="text-center">All Users</h3>
+        {{#each users}}
+        <div class="border bg-dark text-light rounded mt-5 mb-5">
+            <div class="container m-2">
+                <h3>{{this.name}}</h2>
+                    <div class="container m-3">
+                        <h5>Username: {{this.username}}</h5>
+                        <h5>Email: {{this.email}}</h5>
+                    </div>
+            </div>
+        </div>
+        {{/each}}
+        {{else}}
+        <h3 class="text-center">There is no users</h3>
+        {{/if}}
+    </div>
+</section>

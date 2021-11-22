@@ -26,7 +26,6 @@ function addToCart(proId){
           quantity:quantity
       },
       method:'post',
-      
       success:(response)=>{
           if(response.removeProduct){
               alert("Product Removed from Cart")
@@ -52,3 +51,15 @@ $("#checkout").submit((e)=>{
         }
     })
 })
+//Make a order as Shipped
+function shipped(orderId){
+    $.ajax({
+        url:'/admin/shipped/'+orderId,
+        method:'post',
+        success:(response)=>{
+            if(response.status){
+                location.reload()
+            }
+        }
+    })
+}

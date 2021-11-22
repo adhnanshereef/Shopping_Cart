@@ -2,22 +2,56 @@ var express = require("express");
 const {render}=require('../app')
 var router = express.Router();
 var productHelpers=require('../helpers/product-helpers')
+var adminHelpers=require('../helpers/admin-heplers')
 
-// const { productHelpers } = require('../helpers/product-helpers');
-
-/* GET users listing. */
-router.get("/", function (req, res, next) {
+// Login Verification
+const verifyLogin=(req,res,next)=>{
+  if(req.session.adminLoggedIn){
+    next()
+  }else{
+    res.redirect('/admin/login')
+  }
+}
+//View Products
+router.get("/",verifyLogin, function (req, res, next) {
 
   productHelpers.getAllProducts().then((products)=>{
 
     res.render("admin/view-products", {
-      admin: true,
+      admin: req.session.admin,
       products,
       title: "Admin Panel",
     });
   })
 });
-router.get("/add-products", function (req, res) {
+//Login
+router.get('/login',(req,res)=>{
+  if(req.session.admin){
+    res.redirect('/admin')
+  }else{
+    res.render('admin/login',{title:"Admin Login",admin:true,loginErr:req.session.userLoginErr})
+    req.session.adminLoginErr=false
+  }
+})
+router.post('/login',(req,res)=>{
+  adminHelpers.doLogin(req.body).then((response)=>{
+    if(response.status){
+      req.session.admin=response.admin
+      req.session.adminLoggedIn=true
+      res.redirect('/admin/login')
+    }else{
+      req.session.adminLoginErr="Invalid Username or Password"
+      res.redirect('/admin/login')
+    }
+  })
+})
+router.get('/logout',(req,res)=>{
+  req.session.admin=null
+  req.session.adminLoggedIn=false
+  res.redirect('/admin/login')
+})
+//Add Products
+router.get("/add-products",verifyLogin, function (req, res) {
   res.render("admin/add-products",{admin: true,title:"Add Products"});
 });
 router.post("/add-products", (req, res) => {
@@ -25,7 +59,7 @@ router.post("/add-products", (req, res) => {
     let image=req.files.image
     image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
       if(!err){
-        res.render('./admin/add-products', {admin: true,title:"Add Product"})
+        res.render('./admin/add-products', {admin: req.session.admin,title:"Add Product"})
       }else{
       }
     })
@@ -33,18 +67,18 @@ router.post("/add-products", (req, res) => {
 });
 
 // Delete Products
-router.get('/delete-product/:id',(req,res)=>{
+router.get('/delete-product/:id',verifyLogin,(req,res)=>{
   let proId=req.params.id
   productHelpers.deleteProduct(proId).then((response)=>{
     res.redirect('/admin')
   })
 })
 // Edit Products
-router.get('/edit-products/:id',async (req,res)=>{
+router.get('/edit-products/:id',verifyLogin,async (req,res)=>{
   let product=await productHelpers.getProductsDetails(req.params.id)
-  res.render('admin/edit-products',{admin: true,title:"Edit Products",product})
+  res.render('admin/edit-products',{admin: req.session.admin,title:"Edit Products",product})
 })
-router.post('/edit-product/:id',(req,res)=>{
+router.post('/edit-product/:id',verifyLogin,(req,res)=>{
   productHelpers.updateProduct(req.params.id,req.body).then(()=>{
     res.redirect('/admin')
     if(req.files){
@@ -55,7 +89,22 @@ router.post('/edit-product/:id',(req,res)=>{
     }
   })
 })
-// router.post('/edit-product/:id',(req,res)=>{
-//   productHelpers.updateProduct(req.body)
-// })
+// All Orders
+router.get('/all-orders',verifyLogin,async(req,res)=>{
+  let orders=await adminHelpers.getAllOrders()
+  res.render('admin/all-orders',{admin: req.session.admin,title:"All Orders",orders})
+})
+
+router.post('/shipped/:id',verifyLogin,(req,res)=>{
+  console.log(req.params.id+"Helllo");
+  adminHelpers.postAOrderAsShipped(req.params.id).then(()=>{
+   res.json({status:true})
+  })
+})
+//All Users
+router.get('/all-users',verifyLogin,async(req,res)=>{
+  let users=await adminHelpers.getAllUsers()
+  res.render('admin/all-users',{admin: req.session.admin,title:"All Users",users})
+})
+
 module.exports = router;
