@@ -1,16 +1,24 @@
-
+<style>
+  .scale{
+    cursor: pointer;
+  }
+.scale:hover{
+  transform: scale(1.1);
+  transition: 0.5s ease-in-out;
+}
+</style>
   <section>
   <div class="container mt-5">
 
     <div class="row">
       {{#each products}}
-        <div class="col-md-3 p-5" >
-          <div class="card" style="width: 15rem;height: 26rem;overflow-y :hidden;" >
-             <img style="height: 15rem;" src="{{this._id}}.jpg" alt="">
+        <div class="col-md-3 p-5 scale"  >
+          <div class="card" style="width: 15rem;height: 26rem;" >
+             <img style="height: 15rem;" class="scale rounded" src="{{this._id}}.jpg" alt="">
             <div class="card-body">
               <h5 class="card-title">{{this.name}}</h5>
-              <p class="card-text" style="height: 2rem;overflow-y: auto;">{{this.price}}</p>
-              <button onclick={addToCart('{{this._id}}')} class="btn btn-primary">Add to cart</button>
+              <p class="card-text" style="height: 2rem;overflow-y:hidden;">{{this.price}}</p>
+              <button onclick={addToCart('{{this._id}}')} class="btn btn-primary scale">Add to cart</button>
             </div>
           </div>
         </div>

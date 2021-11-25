@@ -151,5 +151,34 @@ router.get('/view-order/:id',verifyLogin,async(req,res)=>{
   console.log(products);
 })
 
+// Profile
+router.get('/profile/:username',verifyLogin,async(req,res)=>{
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  res.render("user/profile",{user:req.session.user,title:"Profile",cartCount});
+  // console.log(req.session.user);
+})
+// Edit Profile
+router.get('/edit-profile/:id',verifyLogin,async(req,res)=>{
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  res.render("user/edit-profile",{user:req.session.user,title:"Profile",cartCount});
+  // console.log(req.session.user);
+})
+router.post('/edit-profile/:id',verifyLogin,(req,res)=>{
+  console.log("Hello "+req.body.name);
+  req.session.user.name=req.body.name
+  req.session.user.username=req.body.username
+  req.session.user.email=req.body.email
+  req.session.userLoggedIn=true
+ userHelpers.editProfile(req.params.id,req.body).then(()=>{
+   res.redirect('/profile/'+req.session.user.username)
+ })
+})
+
 
 module.exports = router;

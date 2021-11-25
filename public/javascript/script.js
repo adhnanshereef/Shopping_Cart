@@ -63,3 +63,14 @@ function shipped(orderId){
         }
     })
 }
+function cancelShipped(orderId){
+    $.ajax({
+        url:'/admin/cancel-shipped/'+orderId,
+        method:'post',
+        success:(response)=>{
+            if(response.status){
+                location.reload()
+            }
+        }
+    })
+}

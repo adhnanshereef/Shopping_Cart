@@ -332,7 +332,20 @@ module.exports = {
       resolve(orderItems);
     });
   },
-  generateRazorpay: (orderId) => {
+  editProfile:(userId,details)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collections.USER_COLLECTION).updateOne({_id:objId(userId)},{
+        $set:{
+          name:details.name,
+          username:details.username,
+          email:details.email
+        }
+      }).then(()=>{
+        resolve()
+      })
+    })
+  }
+  // generateRazorpay: (orderId) => {
     // return new Promise((resolve, reject) => {
     //   instance.orders.create({
     //     amount: 50000,
@@ -341,5 +354,5 @@ module.exports = {
     //     notes: { key1: "value3", key2: "value2" },
     //   });
     // });
-  },
+  // },
 };

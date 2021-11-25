@@ -11,7 +11,15 @@
             <h6 class="card-text">Pincode: {{this.deliveryDetails.pincode}}</h6>
             <h6 class="cart-text">Payment: {{this.paymentMethod}}</h6>
             <h6 class="cart-text">Status: {{this.status}}</h6>
+            {{!-- <script>
+                Handlebars.registerHelper('ifEqual', function(arg1, arg2, options) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});</script> --}}
+            {{!-- {{#ifEqual this.status "placed"}} --}}
             <button onclick="shipped('{{this._id}}')" id="{{this._id}}" class="btn btn-success" >Make it Shipped</button>
+            {{!-- {{else}} --}}
+            <button onclick="cancelShipped('{{this._id}}')" id="{{this._id}}" class="btn btn-success" >Cancel Shipped</button>
+            {{!-- {{/if}} --}}
             <h3 class="cart-text float-end me-5">Total: {{this.total}}</h6>
         </div>
     </div>

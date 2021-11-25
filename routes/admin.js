@@ -96,8 +96,12 @@ router.get('/all-orders',verifyLogin,async(req,res)=>{
 })
 
 router.post('/shipped/:id',verifyLogin,(req,res)=>{
-  console.log(req.params.id+"Helllo");
   adminHelpers.postAOrderAsShipped(req.params.id).then(()=>{
+   res.json({status:true})
+  })
+})
+router.post('/cancel-shipped/:id',verifyLogin,(req,res)=>{
+  adminHelpers.cancelShipped(req.params.id).then(()=>{
    res.json({status:true})
   })
 })
