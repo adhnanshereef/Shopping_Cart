@@ -1,18 +1,26 @@
-
+          <style>
+  .scale{
+    cursor: pointer;
+  }
+.scale:hover{
+  transform: scale(1.1);
+  transition: 0.5s ease-in-out;
+}
+</style>
   <section>
   <div class="container mt-5">
 
     <div class="row">
       {{#each products}}
-      <div class="col-md-3 p-5">
-        <div class="cart">
-          <img src="/{{this.item}}.jpg" alt="{{this.item}}" class="rounded">
-          <div class="cart-body">
-            <h5 class="cart-title">{{this.product.name}}</h5>
-            <p class="cart-text">Quatity: {{this.quantity}}</p>
+        <div class="col-md-3 p-5 scale"  >
+          <div class="card" style="width: 15rem;height: 20rem" >
+            <img src="/{{this.item}}.jpg" alt="{{this.product.item}}" style="height: 15rem;overflow-y:hidden;" class="rounded scale">
+            <div class="card-body">
+              <h5 class="card-title">{{this.product.name}}</h5>
+              <p class="card-text" style="height: 2rem;overflow-y:hidden;">{{this.quantity}}</p>
+            </div>
           </div>
-        </div>   
-      </div>
+        </div>
       {{/each}}
     </div>
   </div>

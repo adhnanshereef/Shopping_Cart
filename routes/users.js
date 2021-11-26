@@ -148,7 +148,6 @@ router.get('/view-order/:id',verifyLogin,async(req,res)=>{
   }
   let products=await userHelpers.getOrderProducts(req.params.id)
   res.render("user/view-order", {user:req.session.user,title:"Ordered Products",cartCount,products});
-  console.log(products);
 })
 
 // Profile
@@ -158,7 +157,6 @@ router.get('/profile/:username',verifyLogin,async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   res.render("user/profile",{user:req.session.user,title:"Profile",cartCount});
-  // console.log(req.session.user);
 })
 // Edit Profile
 router.get('/edit-profile/:id',verifyLogin,async(req,res)=>{
@@ -167,10 +165,8 @@ router.get('/edit-profile/:id',verifyLogin,async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   res.render("user/edit-profile",{user:req.session.user,title:"Profile",cartCount});
-  // console.log(req.session.user);
 })
 router.post('/edit-profile/:id',verifyLogin,(req,res)=>{
-  console.log("Hello "+req.body.name);
   req.session.user.name=req.body.name
   req.session.user.username=req.body.username
   req.session.user.email=req.body.email
@@ -178,6 +174,16 @@ router.post('/edit-profile/:id',verifyLogin,(req,res)=>{
  userHelpers.editProfile(req.params.id,req.body).then(()=>{
    res.redirect('/profile/'+req.session.user.username)
  })
+})
+
+// Product
+router.get('/product/:id',async(req,res)=>{
+  let product=await productHelpers.getProduct(req.params.id)
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  res.render('user/product',{title:product.name,product,cartCount,user:req.session.user})
 })
 
 

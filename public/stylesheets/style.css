@@ -3,3 +3,11 @@
   margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
+
+.scale{
+  cursor: pointer;
+}
+.scale:hover{
+transform: scale(1.1);
+transition: 0.5s ease-in-out;
+}

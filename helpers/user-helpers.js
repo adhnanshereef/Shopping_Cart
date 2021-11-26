@@ -2,11 +2,6 @@ var db = require("../config/connection");
 var collections = require("../config/collections");
 const bcrypt = require("bcrypt");
 var objId = require("mongodb").ObjectId;
-// const Razorpay = require('razorpay');
-// var instance = new Razorpay({
-//   key_id: "rzp_test_jeSJDyjQXSi8Bg",
-//   key_secret: "QN3cZuUF64FBUkL4tDkbOZLy",
-// });
 
 module.exports = {
   doSignup: (userData) => {
@@ -36,17 +31,14 @@ module.exports = {
       if (user) {
         bcrypt.compare(userData.password, user.password).then((status) => {
           if (status) {
-            console.log("Login Success");
             response.user = user;
             response.status = true;
             resolve(response);
           } else {
-            console.log("Login Failed");
             resolve({ status: false });
           }
         });
       } else {
-        console.log("Login failed");
         resolve({ status: false });
       }
     });
@@ -65,7 +57,6 @@ module.exports = {
         let proExist = userCart.products.findIndex(
           (product) => product.item == proId
         );
-        console.log(proExist);
         if (proExist != -1) {
           db.get()
             .collection(collections.CART_COLLECTION)
@@ -345,14 +336,5 @@ module.exports = {
       })
     })
   }
-  // generateRazorpay: (orderId) => {
-    // return new Promise((resolve, reject) => {
-    //   instance.orders.create({
-    //     amount: 50000,
-    //     currency: "INR",
-    //     receipt: "receipt#1",
-    //     notes: { key1: "value3", key2: "value2" },
-    //   });
-    // });
-  // },
+
 };

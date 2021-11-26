@@ -10,7 +10,6 @@ module.exports={
         })
     },
     postAOrderAsShipped:(orderId)=>{
-        console.log('orderId pass',orderId);
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:objId(orderId)},{$set:{status:'shipped'}},{multi:true}).then((response)=>{
                 resolve()
@@ -18,7 +17,6 @@ module.exports={
         })
     },
     cancelShipped:(orderId)=>{
-        console.log('orderId pass',orderId);
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:objId(orderId)},{$set:{status:'placed'}},{multi:true}).then((response)=>{
                 resolve()
@@ -41,17 +39,14 @@ module.exports={
           if (admin) {
             bcrypt.compare(adminData.password, admin.password).then((status) => {
               if (status) {
-                console.log("Login Success");
                 response.admin = admin;
                 response.status = true;
                 resolve(response);
               } else {
-                console.log("Login Failed");
                 resolve({ status: false });
               }
             });
           } else {
-            console.log("Login failed");
             resolve({ status: false });
           }
         });
