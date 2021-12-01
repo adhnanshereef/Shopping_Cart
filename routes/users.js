@@ -72,7 +72,7 @@ router.get('/cart',verifyLogin,async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   if(cartCount==0){
-    res.send('<head><title>Shopping Cart</title><link rel="icon" href="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31a9302828.jpg" /></head><div style="color:black;width:100%;display:flex;justify-content:center;height:100vh;flex-direction:column;align-items:center;font-family:sans-serif;"><h1>Your Cart is Empty</h1><a href="/" style="text-decoration:none;width:100px;padding:15px;border-radius:15px;background:#0d6efd;color:white;" >Add Products</a></div>');
+    res.send('<head><title>Cart</title><link rel="icon" href="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31a9302828.jpg" /></head><div style="color:black;width:100%;display:flex;justify-content:center;height:100vh;flex-direction:column;align-items:center;font-family:sans-serif;"><h1>Your Cart is Empty</h1><a href="/" style="text-decoration:none;width:100px;padding:15px;border-radius:15px;background:#0d6efd;color:white;" >Add Products</a></div>');
   }else{
     let carts=await userHelpers.getCartProducts(req.session.user._id)
     let total=await userHelpers.getTotalAmount(req.session.user._id)
@@ -184,6 +184,29 @@ router.get('/product/:id',async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   res.render('user/product',{title:product.name,product,cartCount,user:req.session.user})
+})
+
+// Buy Now
+
+router.get('/buy-now/:name/:id',verifyLogin,async(req,res)=>{
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  let details=await productHelpers.getProduct(req.params.id) 
+  res.render('user/buy-now',{title:"Buy Now",cartCount,user:req.session.user,details})
+})
+
+router.post('/buy-now',verifyLogin,async(req,res)=>{
+  console.log(req.body);
+  userHelpers.buyNow(req.body).then((orderId)=>{
+    if(req.body['paymentMethod']=='cod'){
+      res.json({status:true})
+    }else{
+      userHelpers.generateRazorpay(orderId).then((response)=>{
+      })
+    }
+  })
 })
 
 

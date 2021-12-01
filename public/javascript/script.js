@@ -74,3 +74,16 @@ function cancelShipped(orderId){
         }
     })
 }
+$("#checkout-buy-now").submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+        url:'/buy-now',
+        method:'post',
+        data:$('#checkout-buy-now').serialize(),
+        success:(response)=>{
+            if(response.status){
+                location.href='/order-success'
+            }
+        }
+    })
+})

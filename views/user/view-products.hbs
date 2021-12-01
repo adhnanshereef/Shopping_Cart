@@ -1,26 +1,18 @@
-<style>
-.scale{
-  cursor: pointer;
-}
-.scale:hover{
-transform: scale(1.1);
-transition: 0.5s ease-in-out;
-}
-</style>  
-<section>
+ <section>
   <div class="container mt-5">
 
     <div class="row">
       {{#each products}}
         <div class="col-md-3 p-5 scale"  >
           <div class="card" style="width: 15rem;height: 26rem;" >
-             <img style="height: 15rem;overflow-y: hidden;" class="scale rounded" src="{{this._id}}.jpg" alt="">
+          {{!-- <a href="/product/{{this._id}}" style="height: 15rem;overflow-y: hidden;"> --}}
+             <img class="rounded scale" style="height: 15rem;overflow-y: hidden;" src="{{this._id}}.jpg" alt="">
+        {{!-- </a> --}}
             <div class="card-body">
-              <h5 class="card-title">{{this.name}}</h5>
+              <a style="text-decoration: none;font-size: 20px;" href="/product/{{this._id}}" class="card-title text-dark">{{this.name}}</a>
               <p class="card-text" style="height: 2rem;overflow-y:hidden;">₹{{this.price}}</p>
-              <a href="/product/{{this._id}}" class="btn btn-primary scale mb-1">View Product</a>
               <button onclick={addToCart('{{this._id}}')} class="btn btn-primary scale">Add to cart</button>
-              <button  class="btn btn-primary scale float-end">Buy Now</button>
+              <a href="/buy-now/{{this.name}}/{{this._id}}"  class="btn btn-primary scale float-end">Buy Now</a>
             </div>
           </div>
         </div>

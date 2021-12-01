@@ -1,7 +1,3 @@
-<style>
-  .scale{ cursor: pointer; } .scale:hover{ transform: scale(1.1); transition:
-  0.5s ease-in-out;z-index: 1; }
-</style>
 <section
   class="mb-5 mt-2"
   style="height: 80vh;display: flex;align-items: center;">
@@ -46,7 +42,8 @@
           soluta enim perferendis voluptates laboriosam. Distinctio, officia
           quis dolore quos sapiente tempore alias.</p>
         <hr />
-        <button type="button" onclick={addToCart('{{product._id}}')} class="btn btn-primary scale">Add to Cart</button>
+        <button type="button" style="margin-right: 20px;" onclick={addToCart('{{product._id}}')} class="btn btn-primary scale">Add to Cart</button>
+<a href="/buy-now/{{product.name}}/{{product._id}}"  class="btn btn-primary scale">Buy Now</a>
       </div>
     </div>
 

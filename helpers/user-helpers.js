@@ -266,6 +266,36 @@ module.exports = {
         });
     });
   },
+  buyNow: (order) => {
+    return new Promise(async (resolve, reject) => {
+      order.total=parseInt(order.total)
+      let status = order.paymentMethod === "cod" ? "placed" : "pending";
+      let orderObj = {
+        deliveryDetails: {
+          mobile: order.mobile,
+          address: order.address,
+          pincode: order.pincode,
+        },
+        userId: objId(order.userId),
+        paymentMethod: order.paymentMethod,
+        products: [
+          {
+            item:objId(order.productId),
+            quantity:1
+          }
+        ],
+        total: order.total,
+        status: status,
+        date: new Date(),
+      };
+      db.get()
+        .collection(collections.ORDER_COLLECTION)
+        .insertOne(orderObj)
+        .then((response) => {
+          resolve(response.insertedId);
+        });
+    });
+  },
   getCartProductList: (userId) => {
     return new Promise(async (resolve, reject) => {
       let cart = await db
