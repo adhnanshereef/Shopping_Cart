@@ -87,3 +87,20 @@ $("#checkout-buy-now").submit((e)=>{
         }
     })
 })
+$("#delete-account").submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+        url:'/delete-account',
+        method:'post',
+        data:$('#delete-account').serialize(),
+        success:(response)=>{
+            if(response.status==true){
+                alert('Your account is successfully deleted')
+                location.href='/'
+            }else{
+                alert('Entered password is incorrect')
+                location.reload()
+            }
+        }
+    })
+})

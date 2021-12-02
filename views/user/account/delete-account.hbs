@@ -1,0 +1,25 @@
+<section>
+    <div class="container mt-5">
+        <h3 class="text-center">Delete Your Account</h3>
+        <form class="col-md-6 mt-3" >
+            <div class="form-group">
+                <h6>Why You are delete your account?</h6>
+                <input type="radio" name="why" value="Our service is not favorable for you">
+                <label for="why">Our service is not favorable for you</label><br>
+                <input type="radio" name="why" value="Our service is not favorable for you">
+                <label for="why">You are not secure in your our session</label><br>
+                <input type="radio" name="why" value="Our service is not favorable for you">
+                <label for="why">You got an error</label><br>
+                <input type="radio" name="why" value="Our service is not favorable for you">
+                <label for="why">Other</label>
+            </div>
+        </form>
+        <form id="delete-account" class="col-md-4 mt-3">
+            <p>If you delete your account you can't recover it again</p>
+            <h6>{{user.name}}</h6>
+            <input type="text" name="username" value="{{user.username}}" hidden>
+            <input type="password" name="password" class="form-control mt-3" placeholder="Enter your password" required >
+            <button type="submit" class="btn btn-primary mt-3" >Delete</button>
+        </form>
+    </div>
+</section>

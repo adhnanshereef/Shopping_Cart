@@ -13,7 +13,7 @@ router.get("/",async function (req, res, next) {
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   productHelpers.getAllProducts().then((products)=>{
-    res.render("user/view-products", { products ,user,title:"Shopping Cart",cartCount }); 
+    res.render("user/product/view-products", { products ,user,title:"Shopping Cart",cartCount }); 
   })
 });
 
@@ -31,7 +31,7 @@ router.get('/login',(req,res)=>{
   if(req.session.user){
     res.redirect('/')
   }else{
-    res.render('user/login',{title:"Login",loginErr:req.session.userLoginErr})
+    res.render('user/account/login',{title:"Shopping Cart | Login",loginErr:req.session.userLoginErr})
     req.session.userLoginErr=false
   }
 })
@@ -54,7 +54,7 @@ router.get('/logout',(req,res)=>{
 })
 // Signup
 router.get('/signup',(req,res)=>{
-  res.render('user/signup',{title:"Signup"})
+  res.render('user/account/signup',{title:"Shopping Cart | Signup"})
 })
 router.post('/signup',(req,res)=>{
   userHelpers.doSignup(req.body).then(async(response)=>{
@@ -72,11 +72,11 @@ router.get('/cart',verifyLogin,async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   if(cartCount==0){
-    res.send('<head><title>Cart</title><link rel="icon" href="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31a9302828.jpg" /></head><div style="color:black;width:100%;display:flex;justify-content:center;height:100vh;flex-direction:column;align-items:center;font-family:sans-serif;"><h1>Your Cart is Empty</h1><a href="/" style="text-decoration:none;width:100px;padding:15px;border-radius:15px;background:#0d6efd;color:white;" >Add Products</a></div>');
+    res.send('<head><title>Shopping Cart | Cart</title><link rel="icon" href="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31a9302828.jpg" /></head><div style="color:black;width:100%;display:flex;justify-content:center;height:100vh;flex-direction:column;align-items:center;font-family:sans-serif;"><h1>Your Cart is Empty</h1><a href="/" style="text-decoration:none;width:100px;padding:15px;border-radius:15px;background:#0d6efd;color:white;" >Add Products</a></div>');
   }else{
     let carts=await userHelpers.getCartProducts(req.session.user._id)
     let total=await userHelpers.getTotalAmount(req.session.user._id)
-    res.render('user/cart',{title:"Cart",user,carts,cartCount,total})
+    res.render('user/product/cart',{title:"Shopping Cart | Cart",user,carts,cartCount,total})
   }
 })
 
@@ -107,7 +107,7 @@ router.get('/place-order',verifyLogin,async(req,res)=>{
     res.send('<head><title>Shopping Cart</title><link rel="icon" href="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31a9302828.jpg" /></head><div style="color:black;width:100%;display:flex;justify-content:center;height:100vh;flex-direction:column;align-items:center;font-family:sans-serif;"><h1>Your Cart is Empty</h1><a href="/" style="text-decoration:none;width:100px;padding:15px;border-radius:15px;background:#0d6efd;color:white;" >Add Products</a></div>');
   }else{
     let total=await userHelpers.getTotalAmount(req.session.user._id)
-  res.render('user/checkout_order',{title:"Place Order",total,user})
+  res.render('user/product/checkout_order',{title:"Place Order",total,user})
   }
 })
 
@@ -131,7 +131,7 @@ router.get('/order-success',verifyLogin,async(req,res)=>{
 
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
-  res.render('user/checkout-success',{title:"Shopping Cart",user:req.session.user,cartCount})
+  res.render('user/product/checkout-success',{title:"Shopping Cart",user:req.session.user,cartCount})
 })
 router.get('/order',verifyLogin,async(req,res)=>{
   let cartCount=null
@@ -139,7 +139,7 @@ router.get('/order',verifyLogin,async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   let orders=await userHelpers.getAllOrders(req.session.user._id)
-  res.render('user/order',{title:"Orders",user:req.session.user,cartCount,orders})
+  res.render('user/product/order',{title:"Orders",user:req.session.user,cartCount,orders})
 })
 router.get('/view-order/:id',verifyLogin,async(req,res)=>{
   let cartCount=null
@@ -147,7 +147,7 @@ router.get('/view-order/:id',verifyLogin,async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   let products=await userHelpers.getOrderProducts(req.params.id)
-  res.render("user/view-order", {user:req.session.user,title:"Ordered Products",cartCount,products});
+  res.render("user/product/view-order", {user:req.session.user,title:"Ordered Products",cartCount,products});
 })
 
 // Profile
@@ -156,7 +156,7 @@ router.get('/profile/:username',verifyLogin,async(req,res)=>{
   if(req.session.user){
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
-  res.render("user/profile",{user:req.session.user,title:"Profile",cartCount});
+  res.render("user/account/profile",{user:req.session.user,title:req.session.user.name+" | Profile",cartCount});
 })
 // Edit Profile
 router.get('/edit-profile/:id',verifyLogin,async(req,res)=>{
@@ -164,7 +164,7 @@ router.get('/edit-profile/:id',verifyLogin,async(req,res)=>{
   if(req.session.user){
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
-  res.render("user/edit-profile",{user:req.session.user,title:"Profile",cartCount});
+  res.render("user/account/edit-profile",{user:req.session.user,title:"Profile",cartCount});
 })
 router.post('/edit-profile/:id',verifyLogin,(req,res)=>{
   req.session.user.name=req.body.name
@@ -183,7 +183,7 @@ router.get('/product/:id',async(req,res)=>{
   if(req.session.user){
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
-  res.render('user/product',{title:product.name,product,cartCount,user:req.session.user})
+  res.render('user/product/product',{title:product.name,product,cartCount,user:req.session.user})
 })
 
 // Buy Now
@@ -194,7 +194,7 @@ router.get('/buy-now/:name/:id',verifyLogin,async(req,res)=>{
     cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
   let details=await productHelpers.getProduct(req.params.id) 
-  res.render('user/buy-now',{title:"Buy Now",cartCount,user:req.session.user,details})
+  res.render('user/product/buy-now',{title:"Buy Now",cartCount,user:req.session.user,details})
 })
 
 router.post('/buy-now',verifyLogin,async(req,res)=>{
@@ -205,6 +205,27 @@ router.post('/buy-now',verifyLogin,async(req,res)=>{
     }else{
       userHelpers.generateRazorpay(orderId).then((response)=>{
       })
+    }
+  })
+})
+
+router.get('/delete-account',verifyLogin,async(req,res)=>{
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  res.render('user/account/delete-account',{title:req.session.user.name+" | Delete",cartCount,user:req.session.user})
+})
+router.post('/delete-account',verifyLogin,(req,res)=>{
+  console.log("Hello world ",req.body);
+  userHelpers.deleteAccount(req.body).then((state)=>{
+    console.log("test",state);
+    if(state.status==true){
+      req.session.user=null
+      req.session.userLoggedIn=false
+      res.json({status:true})
+    }else{
+      res.json({status:false})
     }
   })
 })

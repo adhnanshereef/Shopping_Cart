@@ -365,6 +365,22 @@ module.exports = {
         resolve()
       })
     })
+  },
+  deleteAccount:(account)=>{
+    return new Promise(async(resolve,reject)=>{
+     user=await db.get().collection(collections.USER_COLLECTION).findOne({username:account.username})
+     if(user){
+       bcrypt.compare(account.password,user.password).then((state)=>{
+         if(state){
+           db.get().collection(collections.USER_COLLECTION).deleteOne({username:account.username}).then((details)=>{
+             resolve({status:true})
+           })
+         }else{
+           resolve({status:false})
+         }
+       })
+     }
+    })
   }
 
 };
