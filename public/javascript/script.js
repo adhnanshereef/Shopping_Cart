@@ -109,7 +109,24 @@ function orderChecking(status,orderId){
     console.log("status hello",status,orderId);
     if(status=="shipped"){
         document.getElementById(orderId+"c").style.display="none"
-    }else{
+        document.getElementById(orderId+"r").style.display="none"
+    }else if(status=="placed"){
         document.getElementById(orderId+"y").style.display="none"
+        document.getElementById(orderId+"r").style.display="none"
+    }else if(status=="cancelled"){
+        document.getElementById(orderId+"y").style.display="none"
+        document.getElementById(orderId+"c").style.display="none"
     }
+}
+
+function cancelOrder(orderId){
+    $.ajax({
+        url:'/cancel-order/'+orderId,
+        methode:'get',
+        success:(response)=>{
+            if(response.status){
+                location.reload()
+            }
+        }
+    })
 }

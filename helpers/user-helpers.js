@@ -381,6 +381,13 @@ module.exports = {
        })
      }
     })
+  },
+  cancelOrder:(orderId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:objId(orderId)},{$set:{status:"cancelled"}}).then(()=>{
+        resolve()
+      })
+    })
   }
 
 };

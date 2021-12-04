@@ -230,5 +230,12 @@ router.post('/delete-account',verifyLogin,(req,res)=>{
   })
 })
 
+// Cancel Order
+router.get('/cancel-order/:orderId',verifyLogin,((req,res)=>{
+  userHelpers.cancelOrder(req.params.orderId).then(()=>{
+    res.json({status:true})
+  })
+}))
+
 
 module.exports = router;
