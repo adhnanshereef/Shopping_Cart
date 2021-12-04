@@ -104,3 +104,12 @@ $("#delete-account").submit((e)=>{
         }
     })
 })
+
+function orderChecking(status,orderId){
+    console.log("status hello",status,orderId);
+    if(status=="shipped"){
+        document.getElementById(orderId+"c").style.display="none"
+    }else{
+        document.getElementById(orderId+"y").style.display="none"
+    }
+}

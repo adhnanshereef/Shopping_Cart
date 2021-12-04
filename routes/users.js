@@ -159,7 +159,7 @@ router.get('/profile/:username',verifyLogin,async(req,res)=>{
   res.render("user/account/profile",{user:req.session.user,title:req.session.user.name+" | Profile",cartCount});
 })
 // Edit Profile
-router.get('/edit-profile/:id',verifyLogin,async(req,res)=>{
+router.get('/edit-profile',verifyLogin,async(req,res)=>{
   let cartCount=null
   if(req.session.user){
     cartCount=await userHelpers.getCartCount(req.session.user._id)

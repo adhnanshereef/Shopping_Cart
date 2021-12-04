@@ -111,4 +111,23 @@ router.get('/all-users',verifyLogin,async(req,res)=>{
   res.render('admin/all-users',{admin: req.session.admin,title:"All Users",users})
 })
 
+// Order details
+
+// router.get('/order-details/:id',verifyLogin,(req,res)=>{
+//   res.render('admin/order-details',{title:"Shopping Cart | Order details",admin:res.session.admin})
+// })
+
+router.get('/order-details/:orderId/:userId',verifyLogin,async(req,res)=>{
+  let user=await adminHelpers.getUser(req.params.userId)
+  let products=await adminHelpers.getOrderProducts(req.params.orderId)
+  res.render('admin/order-details',{admin: req.session.admin,title:"Shopping Cart | Order details",user,products})
+})
+
+// Product
+router.get('/product/:id',verifyLogin,async(req,res)=>{
+  let product=await productHelpers.getProduct(req.params.id)
+  res.render('admin/product',{title:product.name,product,admin:req.session.admin})
+})
+
+
 module.exports = router;

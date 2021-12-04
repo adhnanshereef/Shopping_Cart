@@ -50,5 +50,49 @@ module.exports={
             resolve({ status: false });
           }
         });
+      },
+      getUser:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+          let user=await db.get().collection(collections.USER_COLLECTION).findOne({_id:objId(userId)})
+          resolve(user)
+        })
+      },
+      getOrderProducts: (orderId) => {
+        return new Promise(async (resolve, reject) => {
+          let orderItems = await db
+            .get()
+            .collection(collections.ORDER_COLLECTION)
+            .aggregate([
+              {
+                $match: { _id: objId(orderId) },
+              },
+              {
+                $unwind: "$products",
+              },
+              {
+                $project: {
+                  item: "$products.item",
+                  quantity: "$products.quantity",
+                },
+              },
+              {
+                $lookup: {
+                  from: collections.PRODUCT_COLLECTION,
+                  localField: "item",
+                  foreignField: "_id",
+                  as: "product",
+                },
+              },
+              {
+                $project: {
+                  item: 1,
+                  quantity: 1,
+                  product: { $arrayElemAt: ["$product", 0] },
+                },
+              },
+            ])
+            .toArray();
+          resolve(orderItems);
+        });
       }
 }

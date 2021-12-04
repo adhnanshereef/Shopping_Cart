@@ -6,7 +6,6 @@
         <table class="table" id="admin-viewProducts">
   <thead>
     <tr>
-      <th scope="col">No.</th>
       <th scope="col">Title</th>
       <th scope="col">Category</th>
       <th scope="col">Price</th>
@@ -16,13 +15,28 @@
     </tr>
   </thead>
   <tbody>
-      {{#each products}}
+        {{#each products}}
     <tr>
-      <th scope="row">1</th>
-      <td>{{this.name}}</td>
-      <td>{{this.category}}</td>
-      <td>{{this.price}}</td>
-      <td><img style="width: 50px;" src="{{this._id}}.jpg" alt=""></td>
+      <td>
+      <a href="/admin/product/{{this._id}}" class="text-dark" style="cursor: pointer;text-decoration: none;" >
+        {{this.name}}
+      </a>
+        </td>
+      <td>
+        <a href="/admin/product/{{this._id}}" class="text-dark" style="cursor: pointer;text-decoration: none;" >
+        {{this.category}}
+        </a>
+        </td>
+      <td>
+        <a href="/admin/product/{{this._id}}" class="text-dark" style="cursor: pointer;text-decoration: none;" >
+        ₹{{this.price}}
+        </a>
+        </td>
+      <td>
+        <a href="/admin/product/{{this._id}}" style="cursor: pointer;text-decoration: none;" >
+        <img style="width: 50px;" src="{{this._id}}.jpg" alt="">
+        </a>
+        </td>
       <td>
         <a class="btn btn-primary" href="/admin/edit-products/{{this._id}}">Edit</a>
       </td>
