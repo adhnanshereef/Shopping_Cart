@@ -47,7 +47,7 @@
             <p id="{{this._id}}r" >Your refund will get after some days</p>
             <a class="btn btn-primary" href="/view-order/{{this._id}}">View_Products</a>
             <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')" id="{{this._id}}c" >Cancel Order</button>
-            <button class="btn btn-primary" id="{{this._id}}y" >You got it</button>
+            <button class="btn btn-primary" id="{{this._id}}y" onclick="delivered('{{this._id}}')" >You got it</button>
             <h3 class="cart-text float-end me-5">Total: ₹{{this.total}}</h6>
         </div>
     </div>
@@ -56,7 +56,7 @@
     </script>
     {{/each}}
     {{else}}
-<h3 class="text-center mt-3">There is no orders existing</h3>
+<h3 class="text-center mt-3">There is no orders</h3>
 {{/if}}
     </div>
 

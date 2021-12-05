@@ -388,6 +388,31 @@ module.exports = {
         resolve()
       })
     })
+  },
+  delivering:(orderId)=>{
+    return new Promise(async(resolve,reject)=>{
+      let order=await db.get().collection(collections.ORDER_COLLECTION).findOne({_id:objId(orderId)})
+      let delivery={
+        deliveryDetails:order.deliveryDetails,
+        userId:objId(order.userId),
+        paymentMethod:order.paymentMethod,
+        products:order.products,
+        total:order.total,
+        status:"Delivered",
+        orderData:order.date,
+        deliveryDate:new Date()
+      }
+      db.get().collection(collections.DELIVERED_COLLECTION).insertOne(delivery).then(()=>{
+        db.get().collection(collections.ORDER_COLLECTION).deleteOne({_id:objId(orderId)}).then(()=>{
+          resolve()
+        })
+      })
+    })
+  },
+  getDeliveries:(userId)=>{
+    return new Promise(async(resolve,reject)=>{
+      let delivery=await db.get().collection(collections.DELIVERED_COLLECTION).find({userId:objId(userId)}).toArray()
+      resolve(delivery)
+    })
   }
-
 };

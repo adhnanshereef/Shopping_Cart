@@ -130,3 +130,15 @@ function cancelOrder(orderId){
         }
     })
 }
+
+function delivered(orderId){
+    $.ajax({
+        url:'/delivering/'+orderId,
+        methode:'get',
+        success:(response)=>{
+            if(response.status){
+                location.href='/deliveries'
+            }
+        }
+    })
+}

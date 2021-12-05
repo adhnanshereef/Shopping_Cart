@@ -130,4 +130,11 @@ router.get('/product/:id',verifyLogin,async(req,res)=>{
 })
 
 
+// All Deliveries
+
+router.get('/all-deliveries',verifyLogin,async(req,res)=>{
+  let delivery=await adminHelpers.getAllDeliveries()
+  res.render('admin/all-deliveries',{title:"Shopping Cart | All Deliveries",admin:req.session.admin,delivery})
+})
+
 module.exports = router;

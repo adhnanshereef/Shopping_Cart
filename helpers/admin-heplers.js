@@ -1,7 +1,8 @@
 var db=require('../config/connection')
 var collections=require('../config/collections')
 const bcrypt = require("bcrypt");
-var objId=require('mongodb').ObjectId
+var objId=require('mongodb').ObjectId;
+const { Collection } = require('mongodb');
 module.exports={
     getAllOrders:()=>{
         return new Promise(async(resolve,reject)=>{
@@ -94,5 +95,11 @@ module.exports={
             .toArray();
           resolve(orderItems);
         });
+      },
+      getAllDeliveries:()=>{
+        return new Promise(async(resolve,reject)=>{
+          let deliveries=await db.get().collection(collections.DELIVERED_COLLECTION).find().toArray()
+          resolve(deliveries)
+        })
       }
 }

@@ -237,5 +237,22 @@ router.get('/cancel-order/:orderId',verifyLogin,((req,res)=>{
   })
 }))
 
+// Delivery
+
+router.get('/deliveries',verifyLogin,async(req,res)=>{
+  let delivery=await userHelpers.getDeliveries(req.session.user._id)
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  res.render('user/product/deliveries',{title:"Shopping Cart | Deliveries",user:req.session.user,delivery,cartCount})
+})
+
+router.get('/delivering/:orderId',verifyLogin,(req,res)=>{
+  userHelpers.delivering(req.params.orderId).then(()=>{
+    res.json({status:true})
+  })
+})
+
 
 module.exports = router;
