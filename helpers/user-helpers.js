@@ -414,5 +414,12 @@ module.exports = {
       let delivery=await db.get().collection(collections.DELIVERED_COLLECTION).find({userId:objId(userId)}).toArray()
       resolve(delivery)
     })
+  },
+  yesIGotRefund:(orderId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collections.ORDER_COLLECTION).deleteOne({_id:objId(orderId)}).then(()=>{
+        resolve()
+      })
+    })
   }
 };

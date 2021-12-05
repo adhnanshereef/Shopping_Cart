@@ -14,6 +14,7 @@
             <a href="/admin/order-details/{{this._id}}/{{this.userId}}" class="btn btn-success" >View More details</a>
             <button onclick="shipped('{{this._id}}')" id="{{this._id}}" class="btn btn-success" >Make it Shipped</button>
             <button onclick="cancelShipped('{{this._id}}')" id="{{this._id}}" class="btn btn-success" >Cancel Shipped</button>
+            <button onclick="refunded('{{this._id}}')" id="{{this._id}}" class="btn btn-success" >refunded</button>
             <h3 class="cart-text float-end me-5">Total: ₹{{this.total}}</h6>
         </div>
     </div>

@@ -44,7 +44,7 @@
             <h6 class="card-text">Pincode: {{this.deliveryDetails.pincode}}</h6>
             <h6 class="cart-text">Payment: {{this.paymentMethod}}</h6>
             <h6 class="card-text">Status: {{this.status}}</h6>
-            <p id="{{this._id}}r" >Your refund will get after some days</p>
+            <p id="{{this._id}}r" >Your refund will get after some days</p> <button id="{{this._id}}rb" onclick="gotRefund('{{this._id}}')" class="btn btn-primary" >Yes i got refund</button>
             <a class="btn btn-primary" href="/view-order/{{this._id}}">View_Products</a>
             <button class="btn btn-primary" onclick="cancelOrder('{{this._id}}')" id="{{this._id}}c" >Cancel Order</button>
             <button class="btn btn-primary" id="{{this._id}}y" onclick="delivered('{{this._id}}')" >You got it</button>

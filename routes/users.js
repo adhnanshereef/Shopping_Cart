@@ -237,6 +237,8 @@ router.get('/cancel-order/:orderId',verifyLogin,((req,res)=>{
   })
 }))
 
+
+
 // Delivery
 
 router.get('/deliveries',verifyLogin,async(req,res)=>{
@@ -250,6 +252,13 @@ router.get('/deliveries',verifyLogin,async(req,res)=>{
 
 router.get('/delivering/:orderId',verifyLogin,(req,res)=>{
   userHelpers.delivering(req.params.orderId).then(()=>{
+    res.json({status:true})
+  })
+})
+
+// Yes I got Order Id
+router.get('/got-refund/:orderId',verifyLogin,(req,res)=>{
+  userHelpers.yesIGotRefund(req.params.orderId).then(()=>{
     res.json({status:true})
   })
 })

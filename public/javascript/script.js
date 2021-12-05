@@ -74,6 +74,17 @@ function cancelShipped(orderId){
         }
     })
 }
+function refunded(orderId){
+    $.ajax({
+        url:'/admin/refunded/'+orderId,
+        method:'get',
+        success:(response)=>{
+            if(response.status){
+                location.reload()
+            }
+        }
+    })
+}
 $("#checkout-buy-now").submit((e)=>{
     e.preventDefault()
     $.ajax({
@@ -110,12 +121,18 @@ function orderChecking(status,orderId){
     if(status=="shipped"){
         document.getElementById(orderId+"c").style.display="none"
         document.getElementById(orderId+"r").style.display="none"
+        document.getElementById(orderId+"rb").style.display="none"
     }else if(status=="placed"){
         document.getElementById(orderId+"y").style.display="none"
         document.getElementById(orderId+"r").style.display="none"
+        document.getElementById(orderId+"rb").style.display="none"
     }else if(status=="cancelled"){
         document.getElementById(orderId+"y").style.display="none"
         document.getElementById(orderId+"c").style.display="none"
+    }else if(status=="refunded"){
+        document.getElementById(orderId+"y").style.display="none"
+        document.getElementById(orderId+"c").style.display="none"
+        document.getElementById(orderId+"r").style.display="none"
     }
 }
 
@@ -138,6 +155,18 @@ function delivered(orderId){
         success:(response)=>{
             if(response.status){
                 location.href='/deliveries'
+            }
+        }
+    })
+}
+
+function gotRefund(orderId){
+    $.ajax({
+        url:'/got-refund/'+orderId,
+        methode:'get',
+        success:(response)=>{
+            if(response.status){
+                location.href='/'
             }
         }
     })

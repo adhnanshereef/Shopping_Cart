@@ -105,6 +105,12 @@ router.post('/cancel-shipped/:id',verifyLogin,(req,res)=>{
    res.json({status:true})
   })
 })
+// Refunded
+router.get('/refunded/:orderId',verifyLogin,((req,res)=>{
+  adminHelpers.refunded(req.params.orderId).then(()=>{
+    res.json({status:true})
+  })
+}))
 //All Users
 router.get('/all-users',verifyLogin,async(req,res)=>{
   let users=await adminHelpers.getAllUsers()

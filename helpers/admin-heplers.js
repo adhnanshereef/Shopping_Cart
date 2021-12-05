@@ -24,6 +24,13 @@ module.exports={
             })
         })
     },
+   refunded:(orderId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:objId(orderId)},{$set:{status:'refunded'}},{multi:true}).then((response)=>{
+                resolve()
+            })
+        })
+    },
     getAllUsers:()=>{
         return new Promise(async(resolve,reject)=>{
             let users=await db.get().collection(collections.USER_COLLECTION).find().toArray()
