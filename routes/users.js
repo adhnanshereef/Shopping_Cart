@@ -263,5 +263,35 @@ router.get('/got-refund/:orderId',verifyLogin,(req,res)=>{
   })
 })
 
+// Set Profile Picture
+router.get('/set-profile-picture',verifyLogin,async(req,res)=>{
+  let delivery=await userHelpers.getDeliveries(req.session.user._id)
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  res.render('user/account/set-profile-picture',{title:"Shopping Cart | Set Profile Picture",user:req.session.user,cartCount})
+})
+
+router.post('/set-profile-picture',verifyLogin,async(req,res)=>{
+  userHelpers.setProfilePicture(req.session.user._id).then(()=>{
+    req.session.user.profile=true
+    let image=req.files.image
+    image.mv('./public/Images/user-images/'+req.session.user._id+'.jpg',(err,done)=>{
+      if(!err){
+        res.redirect('/profile/'+req.session.user.name)
+      }
+    })
+  })
+})
+
+// Remove Profile Picture 
+router.get('/remove-profile-picture',verifyLogin,async(req,res)=>{
+  userHelpers.removeProfilePicture(req.session.user._id).then(()=>{
+    req.session.user.profile=false
+    res.redirect('/profile/'+req.session.user.name)
+  })
+})
+
 
 module.exports = router;

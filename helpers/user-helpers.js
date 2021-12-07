@@ -6,10 +6,17 @@ var objId = require("mongodb").ObjectId;
 module.exports = {
   doSignup: (userData) => {
     return new Promise(async (resolve, reject) => {
-      userData.password = await bcrypt.hash(userData.password, 10);
+      let data=
+      {
+        name:userData.name,
+        username:userData.username,
+        email:userData.email,
+        password:userData.password = await bcrypt.hash(userData.password, 10),
+        profile:false
+      }
       db.get()
         .collection(collections.USER_COLLECTION)
-        .insertOne(userData)
+        .insertOne(data)
         .then((data) => {
           resolve(data);
         });
@@ -418,6 +425,20 @@ module.exports = {
   yesIGotRefund:(orderId)=>{
     return new Promise((resolve,reject)=>{
       db.get().collection(collections.ORDER_COLLECTION).deleteOne({_id:objId(orderId)}).then(()=>{
+        resolve()
+      })
+    })
+  },
+  setProfilePicture:(userId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collections.USER_COLLECTION).update({_id:objId(userId)},{$set:{profile:true}}).then(()=>{
+        resolve()
+      })
+    })
+  },
+  removeProfilePicture:(userId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collections.USER_COLLECTION).updateOne({_id:objId(userId)},{$set:{profile:false}}).then(()=>{
         resolve()
       })
     })

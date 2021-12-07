@@ -57,10 +57,9 @@ router.get("/add-products",verifyLogin, function (req, res) {
 router.post("/add-products", (req, res) => {
   productHelpers.addProduct(req.body,(id)=>{
     let image=req.files.image
-    image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
+    image.mv('./public/Images/product-images/'+id+'.jpg',(err,done)=>{
       if(!err){
         res.render('./admin/add-products', {admin: req.session.admin,title:"Add Product"})
-      }else{
       }
     })
   },)
@@ -84,7 +83,7 @@ router.post('/edit-product/:id',verifyLogin,(req,res)=>{
     if(req.files){
     if(req.files.image){
       let image=req.files.image
-        image.mv('./public/product-images/'+req.params.id+'.jpg')
+        image.mv('./public/Images/product-images/'+req.params.id+'.jpg')
       }
     }
   })

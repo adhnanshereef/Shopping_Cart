@@ -27,7 +27,7 @@
           <div class="mb-3">
             <label for="" class="form-control">Image</label>
             <img src="" class="rounded m-3" style="width: 100px;height: auto;opacity: 0;" alt="" id="viewImg">
-            <input type="file" name="image" class="form-control" onchange={imageView()} required />
+            <input type="file" accept="image/*" name="image" class="form-control" onchange={imageView()} required />
           </div>
           <button type="submit" class="btn btn-primary mt-5">add</button>
         </form>
