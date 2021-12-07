@@ -136,9 +136,9 @@ function orderChecking(status,orderId){
     }
 }
 
-function cancelOrder(orderId){
+function cancelOrder(orderId,method){
     $.ajax({
-        url:'/cancel-order/'+orderId,
+        url:'/cancel-order/'+orderId+'/'+method,
         methode:'get',
         success:(response)=>{
             if(response.status){

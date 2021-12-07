@@ -389,11 +389,17 @@ module.exports = {
      }
     })
   },
-  cancelOrder:(orderId)=>{
+  cancelOrder:(orderId,method)=>{
     return new Promise((resolve,reject)=>{
-      db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:objId(orderId)},{$set:{status:"cancelled"}}).then(()=>{
-        resolve()
-      })
+      if(method=='cod'){
+        db.get().collection(collections.ORDER_COLLECTION).deleteOne({_id:objId(orderId)}).then(()=>{
+          resolve()
+        })
+      }else{ 
+        db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:objId(orderId)},{$set:{status:"cancelled"}}).then(()=>{
+          resolve()
+        })
+      }
     })
   },
   delivering:(orderId)=>{
