@@ -20,7 +20,7 @@
     <title>Shopping Cart</title>
     {{/if}}
   </head>
-  <body>
+  <body {{#if total}} onload="totalChecking('{{total}}')"{{/if}} >
       {{#if admin}}
     {{>admin-header}}
     {{else}}

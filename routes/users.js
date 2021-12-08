@@ -245,8 +245,8 @@ router.post('/delete-account',verifyLogin,(req,res)=>{
 })
 
 // Cancel Order
-router.get('/cancel-order/:orderId/:method',verifyLogin,((req,res)=>{
-  userHelpers.cancelOrder(req.params.orderId,req.params.method).then(()=>{
+router.get('/cancel-order/:orderId/:method/:status',verifyLogin,((req,res)=>{
+  userHelpers.cancelOrder(req.params.orderId,req.params.method,req.params.status).then(()=>{
     res.json({status:true})
   })
 }))

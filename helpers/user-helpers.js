@@ -394,13 +394,18 @@ module.exports = {
      }
     })
   },
-  cancelOrder:(orderId,method)=>{
+  cancelOrder:(orderId,method,status)=>{
     return new Promise((resolve,reject)=>{
       if(method=='cod'){
         db.get().collection(collections.ORDER_COLLECTION).deleteOne({_id:objId(orderId)}).then(()=>{
           resolve()
         })
-      }else{ 
+      }else if(status=="pending"){
+        db.get().collection(collections.ORDER_COLLECTION).deleteOne({_id:objId(orderId)}).then(()=>{
+          resolve()
+        })
+      }
+      else{ 
         db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:objId(orderId)},{$set:{status:"cancelled"}}).then(()=>{
           resolve()
         })

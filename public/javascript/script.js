@@ -123,7 +123,6 @@ $("#delete-account").submit((e)=>{
 })
 
 function orderChecking(status,orderId){
-    console.log("status hello",status,orderId);
     if(status=="shipped"){
         document.getElementById(orderId+"c").style.display="none"
         document.getElementById(orderId+"r").style.display="none"
@@ -135,16 +134,42 @@ function orderChecking(status,orderId){
     }else if(status=="cancelled"){
         document.getElementById(orderId+"y").style.display="none"
         document.getElementById(orderId+"c").style.display="none"
+        document.getElementById(orderId+"rb").style.display="none"
     }else if(status=="refunded"){
         document.getElementById(orderId+"y").style.display="none"
         document.getElementById(orderId+"c").style.display="none"
         document.getElementById(orderId+"r").style.display="none"
+    }else if(status=="pending"){
+        document.getElementById(orderId+"y").style.display="none"
+        document.getElementById(orderId+"r").style.display="none"
+        document.getElementById(orderId+"rb").style.display="none"
     }
 }
 
-function cancelOrder(orderId,method){
+function adminOrderChecking(status,orderId){
+    if(status=="shipped"){
+        document.getElementById(orderId+"as").style.display="none"
+        document.getElementById(orderId+"ar").style.display="none"
+        document.getElementById(orderId+"rb").style.display="none"
+    }else if(status=="placed"){
+        document.getElementById(orderId+"acs").style.display="none"
+        document.getElementById(orderId+"ar").style.display="none"
+    }else if(status=="cancelled"){
+        document.getElementById(orderId+"as").style.display="none"
+        document.getElementById(orderId+"acs").style.display="none"
+    }else if(status=="refunded"){
+        document.getElementById(orderId+"as").style.display="none"
+        document.getElementById(orderId+"acs").style.display="none"
+        document.getElementById(orderId+"ar").style.display="none"
+    }else if(status=="pending"){
+        document.getElementById(orderId+"as").style.display="none"
+        document.getElementById(orderId+"acs").style.display="none"
+        document.getElementById(orderId+"ar").style.display="none"
+    }
+}
+function cancelOrder(orderId,method,status){
     $.ajax({
-        url:'/cancel-order/'+orderId+'/'+method,
+        url:'/cancel-order/'+orderId+'/'+method+'/'+status,
         methode:'get',
         success:(response)=>{
             if(response.status){
@@ -153,6 +178,7 @@ function cancelOrder(orderId,method){
         }
     })
 }
+
 
 function delivered(orderId){
     $.ajax({
