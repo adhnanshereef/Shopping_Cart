@@ -8,6 +8,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
+    "crypto-js": "^4.1.1",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-fileupload": "^1.2.1",
@@ -19,7 +20,7 @@
     "mongodb": "^4.1.4",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.15",
-    "razorpay": "^0.0.0",
+    "razorpay": "^2.8.0",
     "request-promise": "^4.2.6"
   }
 }

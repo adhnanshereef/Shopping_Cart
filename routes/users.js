@@ -115,15 +115,28 @@ router.post('/place-order',verifyLogin,async(req,res)=>{
   let products=await userHelpers.getCartProductList(req.body.userId)
   let total=await userHelpers.getTotalAmount(req.body.userId)
   userHelpers.placeOrder(req.body,products,total).then((orderId)=>{
-    if(req.body['paymentMethod']=='cod'){
-      res.json({status:true})
+    if(req.body.paymentMethod==='cod'){
+      res.json({codSuccess:true})
     }else{
-      userHelpers.generateRazorpay(orderId).then((response)=>{
+      userHelpers.generateRazorpay(orderId,total).then((response)=>{
+        res.json(response)
       })
     }
   })
 })
-
+// Verify Order
+router.post('/verify-payment',verifyLogin,(req,res)=>{
+  console.log(req.body);
+  userHelpers.verifyPayment(req.body).then(()=>{
+    userHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+      console.log('payment successfull');
+      res.json({status:true})
+    })
+  }).catch((err)=>{
+    console.log('hellooo',err);
+    res.json({status:false,errMsg:'Payment Failed'})
+  })
+})
 //Orders
 router.get('/order-success',verifyLogin,async(req,res)=>{
   let cartCount=null
