@@ -211,12 +211,13 @@ router.get('/buy-now/:name/:id',verifyLogin,async(req,res)=>{
 })
 
 router.post('/buy-now',verifyLogin,async(req,res)=>{
-  console.log(req.body);
+  
   userHelpers.buyNow(req.body).then((orderId)=>{
     if(req.body['paymentMethod']=='cod'){
-      res.json({status:true})
+      res.json({codSuccess:true})
     }else{
-      userHelpers.generateRazorpay(orderId).then((response)=>{
+      userHelpers.generateRazorpay(orderId,req.body.total).then((response)=>{
+        res.json(response)
       })
     }
   })
