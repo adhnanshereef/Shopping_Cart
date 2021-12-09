@@ -1,6 +1,6 @@
 <section>
     <div class="container">
-        {{#if orders}}
+    {{#if orders}}
         <h3 class="text-center mt-3">All Orders</h3>
     {{#each orders}}
     <div class="border border-5 rounded mt-5 mb-5" onmouseover="adminOrderChecking('{{this.status}}','{{this._id}}')" >
@@ -21,7 +21,6 @@
     {{/each}}
     {{else}}
 <h3 class="text-center mt-3">There is no orders existing</h3>
-{{/if}}
+    {{/if}}
     </div>
-
 </section>

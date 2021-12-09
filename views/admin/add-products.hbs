@@ -22,12 +22,30 @@
           </div>
           <div class="mb-3">
             <label for="" class="form-control">Description</label>
-            <input type="text" class="form-control" name="description" required />
+            <input
+              type="text"
+              class="form-control"
+              name="description"
+              required
+            />
           </div>
           <div class="mb-3">
             <label for="" class="form-control">Image</label>
-            <img src="" class="rounded m-3" style="width: 100px;height: auto;opacity: 0;" alt="" id="viewImg">
-            <input type="file" accept="image/*" name="image" class="form-control" onchange={imageView()} required />
+            <img
+              src=""
+              class="rounded m-3"
+              style="width: 100px;height: auto;opacity: 0;"
+              alt=""
+              id="viewImg"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              name="image"
+              class="form-control"
+              onchange="{imageView()}"
+              required
+            />
           </div>
           <button type="submit" class="btn btn-primary mt-5">add</button>
         </form>
@@ -37,7 +55,6 @@
 </section>
 <script>
   function imageView(){
-    document.getElementById('viewImg').src=URL.createObjectURL(event.target.files[0])
-    document.getElementById('viewImg').style.opacity=1
-  }
+  document.getElementById('viewImg').src=URL.createObjectURL(event.target.files[0])
+  document.getElementById('viewImg').style.opacity=1 }
 </script>

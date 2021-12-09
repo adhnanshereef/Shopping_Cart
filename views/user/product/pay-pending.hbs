@@ -1,18 +1,21 @@
 <section>
-    <div class="container mt-5">
-        <h3>Pay Pending</h3>
-        <div class="col-md-3"><form id="pay-pending-checkout" >
-            <div class="border border-3 rounded mt-3" >
-                <div class="container m-2">
-                    <h3>Total Amount: {{total}}</h3>
-                    <h6>paymentMethod</h6>
-                    <input type="text" name="orderId" value="{{orderId}}" hidden >
-                    <input type="text" name="total" value="{{total}}" hidden >
-                    <label>Cash on Delivery</label> <input type="radio" name="paymentMethod" value="cod" required > <br>
-                    <label>Online Payment</label> <input type="radio" name="paymentMethod" value="op" required >
-                </div>
-            </div>
-            <button class="btn btn-primary mt-3" >Checkout</button>
-        </form></div>
-    </div>
+  <div class="container mt-5">
+    <h3>Pay Pending</h3>
+    <div class="col-md-3"><form id="pay-pending-checkout">
+        <div class="border border-3 rounded mt-3">
+          <div class="container m-2">
+            <h3>Total Amount: {{total}}</h3>
+            <h6>paymentMethod</h6>
+            <input type="text" name="orderId" value="{{orderId}}" hidden />
+            <input type="text" name="total" value="{{total}}" hidden />
+            <label>Cash on Delivery</label>
+            <input type="radio" name="paymentMethod" value="cod" required />
+            <br />
+            <label>Online Payment</label>
+            <input type="radio" name="paymentMethod" value="op" required />
+          </div>
+        </div>
+        <button class="btn btn-primary mt-3">Checkout</button>
+      </form></div>
+  </div>
 </section>

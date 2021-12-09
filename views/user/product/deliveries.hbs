@@ -1,6 +1,6 @@
 <section>
     <div class="container">
-        {{#if delivery}}
+    {{#if delivery}}
            {{#each delivery}} 
     <div class="border border-5 rounded mt-5 mb-5">
         <div class="container m-3">
@@ -14,9 +14,9 @@
             <h3 class="cart-text">Total: ₹{{this.total}}</h6>
         </div>
     </div>
-    {{/each}}
+           {{/each}}
     {{else}}
 <h3 class="text-center mt-3">You have no Deliveries</h3>
-{{/if}}
+    {{/if}}
     </div>
 </section>

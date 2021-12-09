@@ -10,24 +10,59 @@
         >
           <div class="mb-3">
             <label for="" class="form-control">Name</label>
-            <input type="text" name="name" value="{{product.name}}" class="form-control" required />
+            <input
+              type="text"
+              name="name"
+              value="{{product.name}}"
+              class="form-control"
+              required
+            />
           </div>
           <div class="mb-3">
             <label for="" class="form-control">Category</label>
-            <input type="text" value="{{product.category}}" class="form-control" name="category" required />
+            <input
+              type="text"
+              value="{{product.category}}"
+              class="form-control"
+              name="category"
+              required
+            />
           </div>
           <div class="mb-3">
             <label for="" class="form-control">Price</label>
-            <input type="number" value="{{product.price}}" class="form-control" name="price" required />
+            <input
+              type="number"
+              value="{{product.price}}"
+              class="form-control"
+              name="price"
+              required
+            />
           </div>
           <div class="mb-3">
             <label for="" class="form-control">Description</label>
-            <input type="text" value="{{product.description}}" class="form-control" name="description" required />
+            <input
+              type="text"
+              value="{{product.description}}"
+              class="form-control"
+              name="description"
+              required
+            />
           </div>
           <div class="mb-3">
             <label for="" class="form-control">Image</label>
-            <img src="/{{product._id}}.jpg" style="width: 200px;height: auto;" alt="" id="imgView" class="p-3">
-            <input type="file" name="image" class="form-control" onchange={viewImage(event)} />
+            <img
+              src="/{{product._id}}.jpg"
+              style="width: 200px;height: auto;"
+              alt=""
+              id="imgView"
+              class="p-3"
+            />
+            <input
+              type="file"
+              name="image"
+              class="form-control"
+              onchange="{viewImage(event)}"
+            />
           </div>
           <button type="submit" class="btn btn-primary mt-1">Edit</button>
         </form>
@@ -38,6 +73,6 @@
 
 <script>
   function viewImage(event){
-    document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+  document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
   }
 </script>

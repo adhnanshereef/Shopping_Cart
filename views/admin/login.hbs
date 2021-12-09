@@ -5,9 +5,9 @@
             <h2 class="text-center" >Login </h2>
             <form action="/admin/login" method="post">
             {{#if loginErr}}
-            <p class="error text-danger">{{loginErr}}</p>
+                <p class="error text-danger">{{loginErr}}</p>
             {{/if}}
-                <label for="username" class="form-label mt-4">Username or email address</label>
+                <label for="username" class="form-label mt-4">Username</label>
                 <input type="text" class="form-control" name="username" id="username" required >
                 <label for="password" class="form-label mt-4">Password</label>
                 <input type="password" class="form-control" name="password" id="password" required>
