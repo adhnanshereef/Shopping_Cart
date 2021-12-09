@@ -307,5 +307,26 @@ router.get('/remove-profile-picture',verifyLogin,async(req,res)=>{
   })
 })
 
+// Pay Pending
+router.get('/pay-pending/:orderId',verifyLogin,async(req,res)=>{
+  let total =await userHelpers.getTotalOfOrder(req.params.orderId,req.session.user._id)
+  let cartCount=null
+  if(req.session.user){
+    cartCount=await userHelpers.getCartCount(req.session.user._id)
+  }
+  res.render('user/product/pay-pending',{title:"Shopping Cart | Pay Pending",user:req.session.user,cartCount,total,orderId:req.params.orderId})
+})
+
+router.post('/pay-pending',verifyLogin,(req,res)=>{
+  console.log(req.body.paymentMethod);
+  if(req.body.paymentMethod=="cod"){
+    res.json({codSuccess:true})
+  }else{
+    userHelpers.generateRazorpay(req.body.orderId,req.body.total).then((response)=>{
+      res.json(response)
+    })
+  }
+})
+
 
 module.exports = router;

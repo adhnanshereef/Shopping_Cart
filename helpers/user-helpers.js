@@ -486,5 +486,11 @@ module.exports = {
         resolve()
       })
     })
+  },
+  getTotalOfOrder:(orderId,userId)=>{
+    return new Promise(async(resolve,reject)=>{
+      let order=await db.get().collection(collections.ORDER_COLLECTION).findOne({_id:objId(orderId),userId:objId(userId)})
+        resolve(order.total)
+    })
   }
 };

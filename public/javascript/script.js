@@ -127,18 +127,22 @@ function orderChecking(status,orderId){
         document.getElementById(orderId+"c").style.display="none"
         document.getElementById(orderId+"r").style.display="none"
         document.getElementById(orderId+"rb").style.display="none"
+        document.getElementById(orderId+"pp").style.display="none"
     }else if(status=="placed"){
         document.getElementById(orderId+"y").style.display="none"
         document.getElementById(orderId+"r").style.display="none"
         document.getElementById(orderId+"rb").style.display="none"
+        document.getElementById(orderId+"pp").style.display="none"
     }else if(status=="cancelled"){
         document.getElementById(orderId+"y").style.display="none"
         document.getElementById(orderId+"c").style.display="none"
         document.getElementById(orderId+"rb").style.display="none"
+        document.getElementById(orderId+"pp").style.display="none"
     }else if(status=="refunded"){
         document.getElementById(orderId+"y").style.display="none"
         document.getElementById(orderId+"c").style.display="none"
         document.getElementById(orderId+"r").style.display="none"
+        document.getElementById(orderId+"pp").style.display="none"
     }else if(status=="pending"){
         document.getElementById(orderId+"y").style.display="none"
         document.getElementById(orderId+"r").style.display="none"
@@ -198,11 +202,29 @@ function gotRefund(orderId){
         methode:'get',
         success:(response)=>{
             if(response.status){
-                location.href='/'
+                location.href='/order'
             }
         }
     })
 }
+
+// Pay Pending
+
+$("#pay-pending-checkout").submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+        url:'/pay-pending',
+        method:'post',
+        data:$('#pay-pending-checkout').serialize(),
+        success:(response)=>{
+            if(response.codSuccess){
+                location.href='/order-success'
+            }else{
+                razorpayPayment(response)
+            }
+        }
+    })
+})
 
 // Payment Gateway
 function razorpayPayment(order){
@@ -247,3 +269,5 @@ function verifyPayment(payment,order){
         }
     })
 }
+
+
